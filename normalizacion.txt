@@ -4,7 +4,7 @@ empleado(#dni,nombre,telefono,apellidos,correo_electronico)
 
 cliente(#id,nombre,telefono,correo_electronico)
 
-helado(#id,#nombre,precio,fecha_caducidad,fecha_apertura,sabor,azucar,litros)
+helado(#id,#nombre,precio,fecha_caducidad,fecha_apertura,sabor,azucar,litros,-id_proveedor)
 
 venta_helado(#-(id_venta,id_helado),cantidad,precio_helado_total)
 
