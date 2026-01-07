@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.luciaia.heladeriamvc.gui.Vista">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FormLayout">
+    <rowspec value="center:d:grow"/>
+    <colspec value="fill:d:grow"/>
+    <constraints>
+      <xy x="20" y="20" width="666" height="535"/>
+    </constraints>
+    <properties>
+      <background color="-133687"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="d257d" binding="tabbedPane1" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <background color="-13435"/>
+          <font size="12" style="1"/>
+          <foreground color="-12115168"/>
+        </properties>
+        <border type="empty">
+          <size top="5" left="5" bottom="5" right="5"/>
+        </border>
+        <children>
+          <grid id="6bc80" binding="JPanelProducto" layout-manager="FormLayout">
+            <rowspec value="center:d:noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:87px:noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <colspec value="fill:137px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:161px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <constraints>
+              <tabbedpane title="Producto"/>
+            </constraints>
+            <properties>
+              <background color="-133687"/>
+              <toolTipText value="Productos"/>
+            </properties>
+            <border type="empty">
+              <size top="5" left="5" bottom="5" right="5"/>
+            </border>
+            <children>
+              <component id="81f48" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Tipo Producto"/>
+                </properties>
+              </component>
+              <component id="2d0d2" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Nombre *"/>
+                </properties>
+              </component>
+              <component id="43e0d" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Precio *"/>
+                </properties>
+              </component>
+              <component id="d493" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Fecha Caducidad *"/>
+                </properties>
+              </component>
+              <component id="4abec" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Fecha Apertura"/>
+                </properties>
+              </component>
+              <grid id="9ae3f" binding="panelCard" layout-manager="CardLayout" hgap="0" vgap="0">
+                <constraints>
+                  <grid row="12" column="0" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <component id="900f5" class="javax.swing.JRadioButton" binding="radioHelado">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-133687"/>
+                  <foreground color="-12115168"/>
+                  <text value="Helado"/>
+                </properties>
+              </component>
+              <component id="e097f" class="javax.swing.JRadioButton" binding="radioGofre">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-133687"/>
+                  <foreground color="-12115168"/>
+                  <text value="Gofre"/>
+                </properties>
+              </component>
+              <component id="c7169" class="javax.swing.JButton" binding="btnLimpiarProducto">
+                <constraints>
+                  <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-12115168"/>
+                  <text value="Limpiar"/>
+                </properties>
+              </component>
+              <component id="a8ac4" class="javax.swing.JButton" binding="btnCancelarProducto">
+                <constraints>
+                  <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1329280"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-12115168"/>
+                  <text value="Cancelar"/>
+                </properties>
+              </component>
+              <component id="b6a7f" class="javax.swing.JButton" binding="btnGuardarProducto">
+                <constraints>
+                  <grid row="14" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <foreground color="-12115168"/>
+                  <text value="Guardar"/>
+                </properties>
+              </component>
+              <component id="5ed44" class="javax.swing.JButton" binding="btnNuevoProducto">
+                <constraints>
+                  <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Nuevo"/>
+                </properties>
+              </component>
+              <component id="f926a" class="javax.swing.JButton" binding="btnEditaProducto">
+                <constraints>
+                  <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Editar"/>
+                </properties>
+              </component>
+              <component id="d2367" class="javax.swing.JButton" binding="btnEliminarProducto">
+                <constraints>
+                  <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Eliminar"/>
+                </properties>
+              </component>
+              <component id="9b857" class="javax.swing.JButton" binding="btnBorrarBBDDProducto">
+                <constraints>
+                  <grid row="22" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <font style="1"/>
+                  <foreground color="-12115168"/>
+                  <text value="Borrar Datos"/>
+                </properties>
+              </component>
+              <component id="e3ef2" class="javax.swing.JTextField" binding="txtBusquedaProducto">
+                <constraints>
+                  <grid row="16" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="f46d1" class="javax.swing.JButton" binding="btnBuscarProducto">
+                <constraints>
+                  <grid row="16" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <foreground color="-12115168"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+              <component id="5440d" class="javax.swing.JTextField" binding="txtNombreProducto">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="7cf47" class="javax.swing.JTextField" binding="txtPrecioProducto">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="e96f" class="com.github.lgooddatepicker.components.DatePicker" binding="dateCaducidad">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-133687"/>
+                </properties>
+              </component>
+              <component id="4db88" class="com.github.lgooddatepicker.components.DatePicker" binding="dateApertura">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-133687"/>
+                </properties>
+              </component>
+              <scrollpane id="a8e5">
+                <constraints>
+                  <grid row="18" column="2" row-span="5" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="1c437" class="javax.swing.JTable" binding="tableProducto">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="36ee" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Proveedor *"/>
+                </properties>
+              </component>
+              <component id="4be71" class="javax.swing.JComboBox" binding="comboProveedor">
+                <constraints>
+                  <grid row="10" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                  <foreground color="-12115168"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="7943e" binding="JPanelEmpleado" layout-manager="FormLayout">
+            <rowspec value="center:d:noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <colspec value="fill:137px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:161px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <constraints>
+              <tabbedpane title="Empleado"/>
+            </constraints>
+            <properties>
+              <background color="-133687"/>
+              <toolTipText value="Empleados"/>
+            </properties>
+            <border type="empty">
+              <size top="5" left="5" bottom="5" right="5"/>
+            </border>
+            <children>
+              <component id="c9c31" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Nombre *"/>
+                </properties>
+              </component>
+              <component id="619b8" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Apellidos"/>
+                </properties>
+              </component>
+              <component id="8d6f8" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Correo electrónico *"/>
+                </properties>
+              </component>
+              <component id="2e563" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Teléfono"/>
+                </properties>
+              </component>
+              <component id="ad122" class="javax.swing.JTextField" binding="txtNombreEmpeado">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="2681f" class="javax.swing.JTextField" binding="txtApellidosEmpleado">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="865d4" class="javax.swing.JTextField" binding="txtEmailEmpleado">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="f1272" class="javax.swing.JTextField" binding="txtTelefonoEmpleado">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="d4b4b" class="javax.swing.JButton" binding="btnLimpiarEmpleado">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-12115168"/>
+                  <text value="Limpiar"/>
+                </properties>
+              </component>
+              <component id="b26f6" class="javax.swing.JButton" binding="btnGuardarEmpleado">
+                <constraints>
+                  <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <foreground color="-12115168"/>
+                  <text value="Guardar"/>
+                </properties>
+              </component>
+              <component id="e977" class="javax.swing.JButton" binding="btnNuevoEmpleado">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Nuevo"/>
+                </properties>
+              </component>
+              <component id="c4910" class="javax.swing.JButton" binding="btnBuscarEmpleado">
+                <constraints>
+                  <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <foreground color="-12115168"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+              <component id="f4671" class="javax.swing.JButton" binding="btnEditarEmpleado">
+                <constraints>
+                  <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Editar"/>
+                </properties>
+              </component>
+              <component id="fbee6" class="javax.swing.JButton" binding="btnEliminarEmpleado">
+                <constraints>
+                  <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Eliminar"/>
+                </properties>
+              </component>
+              <component id="57351" class="javax.swing.JButton" binding="btnBorrarBBDDEmpleado">
+                <constraints>
+                  <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <font style="1"/>
+                  <foreground color="-12115168"/>
+                  <text value="Borrar Datos"/>
+                </properties>
+              </component>
+              <component id="a8bd5" class="javax.swing.JTextField" binding="txtBuscarEmpleado">
+                <constraints>
+                  <grid row="10" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="cf182" class="javax.swing.JButton" binding="btnCancelarEmpleado">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1329280"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-12115168"/>
+                  <text value="Cancelar"/>
+                </properties>
+              </component>
+              <scrollpane id="87417">
+                <constraints>
+                  <grid row="12" column="2" row-span="5" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="ef64" class="javax.swing.JTable" binding="tableEmpleado">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="3191a" binding="JPanelCliente" layout-manager="FormLayout">
+            <rowspec value="center:d:noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <colspec value="fill:137px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:161px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <constraints>
+              <tabbedpane title="Cliente"/>
+            </constraints>
+            <properties>
+              <background color="-133687"/>
+              <toolTipText value="Clientes"/>
+            </properties>
+            <border type="empty">
+              <size top="5" left="5" bottom="5" right="5"/>
+            </border>
+            <children>
+              <component id="d512" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Nombre *"/>
+                </properties>
+              </component>
+              <component id="5491e" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Apellidos"/>
+                </properties>
+              </component>
+              <component id="b331d" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Correo electrónico *"/>
+                </properties>
+              </component>
+              <component id="f9265" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Teléfono"/>
+                </properties>
+              </component>
+              <component id="8a74" class="javax.swing.JTextField" binding="txtNombreCliente">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="eb136" class="javax.swing.JTextField" binding="txtApellidosCliente">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="ebf1d" class="javax.swing.JTextField" binding="txtEmailCliente">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="16d2c" class="javax.swing.JTextField" binding="txtTelefonoCliente">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="a10ce" class="javax.swing.JButton" binding="btnLimpiarCliente">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-12115168"/>
+                  <text value="Limpiar"/>
+                </properties>
+              </component>
+              <component id="5a47b" class="javax.swing.JButton" binding="btnNuevoCliente">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Nuevo"/>
+                </properties>
+              </component>
+              <component id="6dda6" class="javax.swing.JButton" binding="btnEditarCliente">
+                <constraints>
+                  <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Editar"/>
+                </properties>
+              </component>
+              <component id="636a4" class="javax.swing.JButton" binding="btnEliminarCliente">
+                <constraints>
+                  <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Eliminar"/>
+                </properties>
+              </component>
+              <component id="56160" class="javax.swing.JButton" binding="btnBorrarBBDDCliente">
+                <constraints>
+                  <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <font style="1"/>
+                  <foreground color="-12115168"/>
+                  <text value="Borrar Datos"/>
+                </properties>
+              </component>
+              <component id="74d0b" class="javax.swing.JButton" binding="btnGuardarCliente">
+                <constraints>
+                  <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <foreground color="-12115168"/>
+                  <text value="Guardar"/>
+                </properties>
+              </component>
+              <component id="b6e59" class="javax.swing.JButton" binding="btnBuscarCliente">
+                <constraints>
+                  <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <foreground color="-12115168"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+              <component id="d9810" class="javax.swing.JTextField" binding="txtBuscarCliente">
+                <constraints>
+                  <grid row="10" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="5fe39" class="javax.swing.JButton" binding="btnCancelarCliente">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1329280"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <foreground color="-12115168"/>
+                  <text value="Cancelar"/>
+                </properties>
+              </component>
+              <scrollpane id="5a7f1">
+                <constraints>
+                  <grid row="12" column="2" row-span="5" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="27751" class="javax.swing.JTable" binding="tableCliente">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="8e16b" binding="JPanelProveedor" layout-manager="FormLayout">
+            <rowspec value="center:d:noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <colspec value="fill:137px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:161px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:130px:noGrow"/>
+            <constraints>
+              <tabbedpane title="Proveedor"/>
+            </constraints>
+            <properties>
+              <background color="-133687"/>
+              <toolTipText value="Proveedores"/>
+            </properties>
+            <border type="empty">
+              <size top="5" left="5" bottom="5" right="5"/>
+            </border>
+            <children>
+              <component id="d158b" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Nombre *"/>
+                </properties>
+              </component>
+              <component id="6feaf" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Persona Contacto*"/>
+                </properties>
+              </component>
+              <component id="8440c" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Email *"/>
+                </properties>
+              </component>
+              <component id="524c1" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Teléfono"/>
+                </properties>
+              </component>
+              <component id="465f1" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Dirección"/>
+                </properties>
+              </component>
+              <component id="ec1a6" class="javax.swing.JTextField" binding="txtNombreProveedor">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="36fac" class="javax.swing.JTextField" binding="txtContactoProveedor">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="c7b8e" class="javax.swing.JTextField" binding="txtEmailProveedor">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="50901" class="javax.swing.JTextField" binding="txtTelefonoProveedor">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="e0be2" class="javax.swing.JTextField" binding="txtDireccionProveedor">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="25237" class="javax.swing.JButton" binding="btnLimpiarProveedor">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <foreground color="-12115168"/>
+                  <text value="Limpiar"/>
+                </properties>
+              </component>
+              <component id="3f497" class="javax.swing.JButton" binding="btnNuevoProveedor">
+                <constraints>
+                  <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Nuevo"/>
+                </properties>
+              </component>
+              <component id="ff9d0" class="javax.swing.JButton" binding="btnEditarProveedor">
+                <constraints>
+                  <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Editar"/>
+                </properties>
+              </component>
+              <component id="35590" class="javax.swing.JButton" binding="btnEliminarProveedor">
+                <constraints>
+                  <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Eliminar"/>
+                </properties>
+              </component>
+              <component id="72c90" class="javax.swing.JButton" binding="btnBorrarBBDDProveedor">
+                <constraints>
+                  <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <font style="1"/>
+                  <foreground color="-12115168"/>
+                  <text value="Borrar Datos"/>
+                </properties>
+              </component>
+              <component id="ec8e5" class="javax.swing.JButton" binding="btnGuardarProveedor">
+                <constraints>
+                  <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <foreground color="-12115168"/>
+                  <text value="Guardar"/>
+                </properties>
+              </component>
+              <component id="fc56a" class="javax.swing.JButton" binding="btnBuscarProveedor">
+                <constraints>
+                  <grid row="12" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <foreground color="-12115168"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+              <component id="109df" class="javax.swing.JTextField" binding="txtBuscarProveedor">
+                <constraints>
+                  <grid row="12" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <forms defaultalign-horz="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="ed91f" class="javax.swing.JButton" binding="btnCancelarProveedor">
+                <constraints>
+                  <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1329280"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-12115168"/>
+                  <text value="Cancelar"/>
+                </properties>
+              </component>
+              <scrollpane id="1a13a">
+                <constraints>
+                  <grid row="14" column="2" row-span="5" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="ee0d" class="javax.swing.JTable" binding="tableProveedor">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="c9ced" binding="JPanelVenta" layout-manager="FormLayout">
+            <rowspec value="center:d:noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <colspec value="fill:137px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:350px:noGrow"/>
+            <colspec value="left:4dlu:noGrow"/>
+            <colspec value="fill:75px:noGrow"/>
+            <constraints>
+              <tabbedpane title="Venta"/>
+            </constraints>
+            <properties>
+              <background color="-133687"/>
+              <toolTipText value="Ventas"/>
+            </properties>
+            <border type="empty">
+              <size top="5" left="5" bottom="5" right="5"/>
+            </border>
+            <children>
+              <component id="606bf" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Empleado *"/>
+                </properties>
+              </component>
+              <component id="8fefc" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <foreground color="-12115168"/>
+                  <text value="Cliente *"/>
+                </properties>
+              </component>
+              <component id="3742c" class="javax.swing.JComboBox" binding="comboEmpleado">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                  <foreground color="-12115168"/>
+                </properties>
+              </component>
+              <component id="1a7bc" class="javax.swing.JComboBox" binding="comboCliente">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                  <foreground color="-12115168"/>
+                </properties>
+              </component>
+              <component id="d3b2d" class="javax.swing.JButton" binding="btnNuevoVenta">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-13435"/>
+                  <borderPainted value="false"/>
+                  <enabled value="true"/>
+                  <foreground color="-12115168"/>
+                  <text value="Nuevo"/>
+                </properties>
+              </component>
+              <component id="1ffaa" class="javax.swing.JButton" binding="btnEditarVenta">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Editar"/>
+                </properties>
+              </component>
+              <component id="82e2e" class="javax.swing.JButton" binding="btnEliminarVenta">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-550293"/>
+                  <foreground color="-12115168"/>
+                  <text value="Eliminar"/>
+                </properties>
+              </component>
+              <component id="68e27" class="javax.swing.JButton" binding="btnBorrarBBDDVenta">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <font style="1"/>
+                  <foreground color="-12115168"/>
+                  <text value="Borrar Datos"/>
+                </properties>
+              </component>
+              <scrollpane id="20c4">
+                <constraints>
+                  <grid row="4" column="2" row-span="7" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <forms defaultalign-horz="false" defaultalign-vert="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="95b5d" class="javax.swing.JTable" binding="tableVenta">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="9c09e" class="javax.swing.JButton" binding="btnBuscarVentaEmpleado">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <foreground color="-12115168"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+              <component id="9f588" class="javax.swing.JButton" binding="btnBuscarVentaCliente">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <forms/>
+                </constraints>
+                <properties>
+                  <background color="-689861"/>
+                  <foreground color="-12115168"/>
+                  <text value="Buscar"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="tipoProducto">
+      <member id="900f5"/>
+      <member id="e097f"/>
+    </group>
+  </buttonGroups>
+</form>

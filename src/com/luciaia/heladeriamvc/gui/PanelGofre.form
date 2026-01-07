@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.luciaia.heladeriamvc.gui.PanelGofre">
+  <grid id="27dc6" binding="panel1" layout-manager="FormLayout">
+    <rowspec value="center:d:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:137px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:216px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:217px:noGrow"/>
+    <constraints>
+      <xy x="20" y="20" width="584" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-133687"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="8aee9" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <foreground color="-12115168"/>
+          <text value="Topping *"/>
+        </properties>
+      </component>
+      <component id="bf2a1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <foreground color="-12115168"/>
+          <text value="Tipo Masa *"/>
+        </properties>
+      </component>
+      <component id="54b16" class="javax.swing.JComboBox" binding="tipoMasaComboBox">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-12115168"/>
+          <model/>
+        </properties>
+      </component>
+      <component id="dd73c" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <foreground color="-12115168"/>
+          <text value="Gluten *"/>
+        </properties>
+      </component>
+      <component id="56ecd" class="javax.swing.JRadioButton" binding="conGlutenRadioButton">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <background color="-133687"/>
+          <foreground color="-12115168"/>
+          <text value="Con Gluten"/>
+        </properties>
+      </component>
+      <component id="42992" class="javax.swing.JRadioButton" binding="sinGlutenRadioButton">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <background color="-133687"/>
+          <foreground color="-12115168"/>
+          <text value="Sin Gluten"/>
+        </properties>
+      </component>
+      <component id="e17f1" class="javax.swing.JComboBox" binding="comboToppingGofre">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-12115168"/>
+          <model/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="gluten">
+      <member id="56ecd"/>
+      <member id="42992"/>
+    </group>
+  </buttonGroups>
+</form>

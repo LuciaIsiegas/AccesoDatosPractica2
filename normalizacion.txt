@@ -6,6 +6,8 @@ cliente(#id,nombre,telefono,correo_electronico)
 
 helado(#id,#nombre,precio,fecha_caducidad,fecha_apertura,sabor,azucar,litros,-id_proveedor)
 
+gofre(#id,#nombre,precio,fecha_caducidad,fecha_apertura,topping,gluten,tipo_masa,-id_proveedor)
+
 venta_helado(#-(id_venta,id_helado),cantidad,precio_helado_total)
 
 venta(#id,precio_total,-id_cliente,-id_empleado)
