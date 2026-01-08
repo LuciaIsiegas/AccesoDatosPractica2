@@ -248,6 +248,8 @@ public class Modelo {
             }
         }
     }
+    // FIN INSERT -----------------------------------------------------------------------------------------------------
+
 
     // UPDATE -------------------------------------------------------------------------------------------
     void modificarProveedor(int id, String nombre, String personaContacto, String email, String telefono, String direccion) {
@@ -420,6 +422,8 @@ public class Modelo {
             }
         }
     }
+    // FIN UPDATE -----------------------------------------------------------------------------------------------------
+
 
     // DELETE -------------------------------------------------------------------------------------------
     void eliminarProveedor(int id) {
@@ -506,44 +510,13 @@ public class Modelo {
         }
     }
 
-    void modificarGofre(int id, int precio, LocalDate fechaApertura, LocalDate fechaCaducidad, int idProveedor, String topping, boolean gluten, String tipoMasa) {
-        String sentenciaSql = "call pCrearGofre(?,?,?,?,?,?,?,?)";
+    void eliminarVentaProducto(int id) {
+        String sentenciaSql = "call pEliminarVentaProducto(?)";
         CallableStatement sentencia = null;
 
         try {
             sentencia = conexion.prepareCall(sentenciaSql);
             sentencia.setInt(1, id);
-            sentencia.setInt(2, precio);
-            sentencia.setDate(3, Date.valueOf(fechaApertura));
-            sentencia.setDate(4, Date.valueOf(fechaCaducidad));
-            sentencia.setInt(5, idProveedor);
-            sentencia.setString(6, topping);
-            sentencia.setBoolean(7, gluten);
-            sentencia.setString(8, tipoMasa);
-            sentencia.execute();
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        } finally {
-            if (sentencia != null) {
-                try {
-                    sentencia.close();
-                } catch (SQLException sqle) {
-                    sqle.printStackTrace();
-                }
-            }
-        }
-    }
-
-    void modificarVentaProducto(int id, int cantidad, int idVenta, int idProducto) {
-        String sentenciaSql = "call pModificarVentaProduto(?,?,?,?)";
-        CallableStatement sentencia = null;
-
-        try {
-            sentencia = conexion.prepareCall(sentenciaSql);
-            sentencia.setInt(1, id);
-            sentencia.setInt(2, cantidad);
-            sentencia.setInt(3, idVenta);
-            sentencia.setInt(4, idProducto);
             sentencia.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -558,24 +531,432 @@ public class Modelo {
         }
     }
 
-    void generarVenta(int idVenta) {
-        String sentenciaSql = "call pGenerarVenta(?)";
-        CallableStatement call = null;
+    void eliminarVenta(int id){
+        String sentenciaSql = "call pEliminarVenta(?)";
+        CallableStatement sentencia = null;
+
         try {
-            call = conexion.prepareCall(sentenciaSql);
-            call.setInt(1, idVenta);
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.setInt(1, id);
+            sentencia.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         } finally {
-            if (call != null) {
+            if (sentencia != null) {
                 try {
-                    call.close();
+                    sentencia.close();
                 } catch (SQLException sqle) {
                     sqle.printStackTrace();
                 }
             }
         }
     }
+    // FIN DELETE -----------------------------------------------------------------------------------------------------
+
+
+    // SELECT -------------------------------------------------------------------------------------------
+    ResultSet consultarProveedor() throws SQLException {
+        String sentenciaSql = "SELECT id as 'ID', " +
+                "nombre as 'Proveedor', " +
+                "persona_contacto as 'Contacto', " +
+                "email as 'Correo Electrónico', " +
+                "telefono as 'Teléfono', " +
+                "direccion as 'Dirección' " +
+                "FROM proveedor " +
+                "WHERE activo";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarEmpleado() throws SQLException {
+        String sentenciaSql = "SELECT id as 'ID', " +
+                "nombre as 'Nombre', " +
+                "apellidos as 'Apellidos', " +
+                "email as 'Correo Electrónico', " +
+                "telefono as 'Teléfono' " +
+                "FROM empleado " +
+                "WHERE activo";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarCliente() throws SQLException {
+        String sentenciaSql = "SELECT id as 'ID', " +
+                "nombre as 'Nombre', " +
+                "apellidos as 'Apellidos', " +
+                "email as 'Correo Electrónico', " +
+                "telefono as 'Teléfono' " +
+                "FROM cliente " +
+                "WHERE activo";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarProducto() throws SQLException {
+        String sentenciaSql = "SELECT pd.id as 'ID', " +
+                "pd.nombre as 'Nombre', " +
+                "pd.precio as 'Precio', " +
+                "pd.tipo as 'Tipo', " +
+                "pd.fecha_apertura as 'Fecha Apertura', " +
+                "pd.fecha_caducidad as 'Fecha Caducidad' " +
+                "pv.nombre as 'Proveedor' " +
+                "FROM producto pd " +
+                "JOIN proveedor pv on pd.id_proveedor = pv.id" +
+                "WHERE pd.activo";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarVenta() throws SQLException {
+        String sentenciaSql = "SELECT v.id as 'ID', " +
+                "v.id_empleado as 'Empleado', " +
+                "c.email as 'Cliente', " +
+                "v.cantidad as 'Cantidad', " +
+                "v.precio_total as 'Precio Total' " +
+                "FROM venta v " +
+                "JOIN cliente c on c.id = v.id_cliente";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarVentaProducto(int idVenta) throws SQLException {
+        String sentenciaSql = "SELECT vp.id as 'ID', " +
+                "vp.id_producto as 'ID Producto', " +
+                "p.nombre as 'Producto', " +
+                "p.precio as 'Precio Unidad', " +
+                "vp.cantidad as 'Cantidad', " +
+                "vp.precio_total as 'Total (€)' " +
+                "FROM venta_producto vp " +
+                "JOIN producto p on p.id = vp.id_producto " +
+                "WHERE vp.id_venta = ?";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setInt(1, idVenta);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+    // FIN SELECT -----------------------------------------------------------------------------------------------------
+
+
+    // BUSCAR -------------------------------------------------------------------------------------------
+    ResultSet buscarProveedor(String nombre) throws SQLException {
+        String sentenciaSql = "SELECT id as 'ID', " +
+                "nombre as 'Proveedor', " +
+                "persona_contacto as 'Contacto', " +
+                "email as 'Correo Electrónico', " +
+                "telefono as 'Teléfono', " +
+                "direccion as 'Dirección' " +
+                "FROM proveedor " +
+                "WHERE activo " +
+                "AND nombre like '%?%'";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setString(1, nombre);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet buscarEmpleado(String emailEmpleado) throws SQLException {
+        String sentenciaSql = "SELECT id as 'ID', " +
+                "nombre as 'Nombre', " +
+                "apellidos as 'Apellidos', " +
+                "email as 'Correo Electrónico', " +
+                "telefono as 'Teléfono' " +
+                "FROM empleado " +
+                "WHERE activo " +
+                "AND email like '%?%'";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setString(1, emailEmpleado);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet buscarCliente(String emailCliente) throws SQLException {
+        String sentenciaSql = "SELECT id as 'ID', " +
+                "nombre as 'Nombre', " +
+                "apellidos as 'Apellidos', " +
+                "email as 'Correo Electrónico', " +
+                "telefono as 'Teléfono' " +
+                "FROM cliente " +
+                "WHERE activo " +
+                "AND email like '%?%'";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setString(1, emailCliente);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarProducto(String nombreProducto) throws SQLException {
+        String sentenciaSql = "SELECT pd.id as 'ID', " +
+                "pd.nombre as 'Nombre', " +
+                "pd.precio as 'Precio', " +
+                "pd.tipo as 'Tipo', " +
+                "pd.fecha_apertura as 'Fecha Apertura', " +
+                "pd.fecha_caducidad as 'Fecha Caducidad' " +
+                "pv.nombre as 'Proveedor' " +
+                "FROM producto pd " +
+                "JOIN proveedor pv on pd.id_proveedor = pv.id" +
+                "WHERE pd.activo " +
+                "AND pd.nombre like '%?%'";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setString(1, nombreProducto);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet buscarVentaEmpleado(int idEmpleado) throws SQLException {
+        String sentenciaSql = "SELECT v.id as 'ID', " +
+                "v.id_empleado as 'Empleado', " +
+                "c.email as 'Cliente', " +
+                "v.cantidad as 'Cantidad', " +
+                "v.precio_total as 'Precio Total' " +
+                "FROM venta v " +
+                "JOIN cliente c on c.id = v.id_cliente " +
+                "WHERE v.id_empleado = ?";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setInt(1, idEmpleado);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet buscarVentaProducto(int idCliente) throws SQLException {
+        String sentenciaSql = "SELECT v.id as 'ID', " +
+                "v.id_empleado as 'Empleado', " +
+                "c.email as 'Cliente', " +
+                "v.cantidad as 'Cantidad', " +
+                "v.precio_total as 'Precio Total' " +
+                "FROM venta v " +
+                "JOIN cliente c on c.id = v.id_cliente " +
+                "WHERE v.id_cliente = ?";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setInt(1, idCliente);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+    // FIN BUSCAR -----------------------------------------------------------------------------------------------------
+
+
+    // LIMPIAR ------------------------------------------------------------------------------------------
+    void limpiarBBDDProveedor() {
+        String sentenciaSql = "call pLimpiarProveedor()";
+        CallableStatement sentencia = null;
+
+        try {
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.execute();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            if (sentencia != null) {
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    void limpiarBBDDEmpleado() {
+        String sentenciaSql = "call pLimpiarEmpleado()";
+        CallableStatement sentencia = null;
+
+        try {
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.execute();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            if (sentencia != null) {
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    void limpiarBBDDCliente() {
+        String sentenciaSql = "call pLimpiarCliente()";
+        CallableStatement sentencia = null;
+
+        try {
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.execute();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            if (sentencia != null) {
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    void limpiarBBDDProducto() {
+        String sentenciaSql = "call pLimpiarProducto()";
+        CallableStatement sentencia = null;
+
+        try {
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.execute();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            if (sentencia != null) {
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    void limpiarBBDDVentaProducto(int idVenta) {
+        String sentenciaSql = "call pLimpiarVentaProducto(?)";
+        CallableStatement sentencia = null;
+
+        try {
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.setInt(1, idVenta);
+            sentencia.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            if (sentencia != null) {
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    void limpiarBBDDVenta(){
+        String sentenciaSql = "call pLimpiarVenta()";
+        CallableStatement sentencia = null;
+
+        try {
+            sentencia = conexion.prepareCall(sentenciaSql);
+            sentencia.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            if (sentencia != null) {
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+    // FIN LIMPIAR -----------------------------------------------------------------------------------------------------
+
+
+    // EXISTE ------------------------------------------------------------------------------------------
+    public boolean proveedorExiste(String nombreProveedor){
+        String proveedorConsult = "SELECT fExisteProveedor(?)";
+        PreparedStatement function;
+        boolean proveedorExists = false;
+        try {
+            function = conexion.prepareStatement(proveedorConsult);
+            function.setString(1, nombreProveedor);
+            ResultSet rs = function.executeQuery();
+            rs.next();
+
+            proveedorExists = rs.getBoolean(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return proveedorExists;
+    }
+
+    public boolean empleadoExiste(String emailEmpleado){
+        String empleadoConsult = "SELECT fExisteEmpleado(?)";
+        PreparedStatement function;
+        boolean empleadoExists = false;
+        try {
+            function = conexion.prepareStatement(empleadoConsult);
+            function.setString(1, emailEmpleado);
+            ResultSet rs = function.executeQuery();
+            rs.next();
+
+            empleadoExists = rs.getBoolean(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return empleadoExists;
+    }
+
+    public boolean clienteExiste(String emailCliente){
+        String clienteConsult = "SELECT fExisteCliente(?)";
+        PreparedStatement function;
+        boolean clienteExists = false;
+        try {
+            function = conexion.prepareStatement(clienteConsult);
+            function.setString(1, emailCliente);
+            ResultSet rs = function.executeQuery();
+            rs.next();
+
+            clienteExists = rs.getBoolean(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clienteExists;
+    }
+
+    public boolean productoExiste(String nombreProducto){
+        String productoConsult = "SELECT fExisteProducto(?)";
+        PreparedStatement function;
+        boolean productoExists = false;
+        try {
+            function = conexion.prepareStatement(productoConsult);
+            function.setString(1, nombreProducto);
+            ResultSet rs = function.executeQuery();
+            rs.next();
+
+            productoExists = rs.getBoolean(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productoExists;
+    }
+    // FIN EXISTE -----------------------------------------------------------------------------------------------------
+
 
 
     private void getPropValues() {
@@ -602,6 +983,26 @@ public class Modelo {
             }
         }
     }
+
+    void setPropValues(String ip, String user, String pass, String adminPass) {
+        try {
+            Properties prop = new Properties();
+            prop.setProperty("ip", ip);
+            prop.setProperty("user", user);
+            prop.setProperty("pass", pass);
+            prop.setProperty("admin", adminPass);
+            OutputStream out = new FileOutputStream("config.properties");
+            prop.store(out, null);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        this.ip = ip;
+        this.user = user;
+        this.password = pass;
+        this.adminPassword = adminPass;
+    }
+
 
 
 }

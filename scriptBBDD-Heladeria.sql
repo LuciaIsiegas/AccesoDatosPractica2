@@ -7,7 +7,7 @@ USE heladeria;
 CREATE TABLE IF NOT EXISTS proveedor (
 id int auto_increment primary key,
 nombre varchar(50) unique not null,
-persona_contacto varchar(150) not null,
+persona_contacto varchar(50) not null,
 email varchar(100) not null,
 telefono varchar(9),
 direccion varchar(200),
@@ -95,12 +95,12 @@ begin
 end ||
 delimiter ;
 --
-drop function if exists fExisteHelado;
+drop function if exists fExisteProducto;
 delimiter ||
-create function fExisteHelado(pnombre_helado varchar(50))
+create function fExisteProducto(pnombre_producto varchar(50))
 returns int
 begin
-	if exists (select nombre from helado where nombre = pnombre_helado) then
+	if exists (select nombre from producto where nombre = pnombre_producto) then
 		return 1;
     else
 		return 0;
@@ -139,7 +139,7 @@ delimiter ||
 create procedure pEliminarProveedor(pid_proveedor int)
 begin
 	if exists (select id from proveedor where id = pid_proveedor) then
-		if exists (select id from helado where id_proveedor = pid_proveedor) then
+		if exists (select id from producto where id_proveedor = pid_proveedor) then
 			update proveedor
             set activo = false
             where id = pid_proveedor;
@@ -214,12 +214,25 @@ begin
 end ||
 delimiter ;
 --
+drop procedure if exists pEliminarVentaProducto;
+delimiter ||
+create procedure pEliminarVentaProducto(pid_venta_producto int)
+begin
+	if exists (select id from venta_producto where id = pid_venta_producto) then
+		delete from venta_producto
+        where id = pid_venta_producto;
+	else
+		select "La venta no existe";
+    end if;
+end ||
+delimiter ;
+--
 drop procedure if exists pEliminarVenta;
 delimiter ||
 create procedure pEliminarVenta(pid_venta int)
 begin
 	if exists (select id from venta where id like pid_venta) then
-		delete from venta_helado
+		delete from venta_producto
         where id_venta = pid_venta;
         delete from venta
         where id = pid_venta;
@@ -335,5 +348,106 @@ begin
 			precio_total = (select precio from producto where id = pid_producto)*cantidad
         where id = pid;
     end if;
+end ||
+delimiter ;
+--
+drop procedure if exists pLimpiarProveedor;
+delimiter ||
+create procedure pLimpiarProveedor()
+begin
+	UPDATE proveedor p
+	SET activo = FALSE
+	WHERE EXISTS (
+		SELECT id FROM producto pr
+		WHERE pr.id_proveedor = p.id
+	);
+
+	DELETE FROM proveedor
+	WHERE id NOT IN (
+		SELECT DISTINCT id_proveedor FROM producto
+	);
+end ||
+delimiter ;
+--
+drop procedure if exists pLimpiarProducto;
+delimiter ||
+create procedure pLimpiarProducto()
+begin
+	UPDATE producto p
+	SET activo = FALSE
+	WHERE EXISTS (
+		SELECT id FROM venta_producto vp
+		WHERE vp.id_producto = p.id
+	);
+	
+    -- Eliminar relaciones de productos sin ventas
+    DELETE h FROM helado h
+    WHERE NOT EXISTS (
+        SELECT id
+        FROM venta_producto vp
+        WHERE vp.id_producto = h.id_producto
+    );
+    DELETE g FROM gofre g
+    WHERE NOT EXISTS (
+        SELECT id
+        FROM venta_producto vp
+        WHERE vp.id_producto = g.id_producto
+    );
+    DELETE p FROM producto p
+    WHERE NOT EXISTS (
+        SELECT id
+        FROM venta_producto vp
+        WHERE vp.id_producto = p.id
+    );
+end ||
+delimiter ;
+--
+drop procedure if exists pLimpiarCliente;
+delimiter ||
+create procedure pLimpiarCliente()
+begin
+	UPDATE cliente c
+	SET activo = FALSE
+	WHERE EXISTS (
+		SELECT id FROM venta v
+		WHERE v.id_cliente = c.id
+	);
+    DELETE FROM cliente
+    WHERE id NOT IN (SELECT DISTINCT id_cliente FROM venta);
+end ||
+delimiter ;
+--
+drop procedure if exists pLimpiarEmpleado;
+delimiter ||
+create procedure pLimpiarEmpleado()
+begin
+	UPDATE empleado e
+	SET activo = FALSE
+	WHERE EXISTS (
+		SELECT id FROM venta v
+		WHERE v.id_empleado = e.id
+	);
+    DELETE FROM empleado
+    WHERE id NOT IN (SELECT DISTINCT id_empleado FROM venta);
+end ||
+delimiter ;
+--
+drop procedure if exists pLimpiarVentaProducto;
+delimiter ||
+create procedure pLimpiarVentaProducto(pid_venta int)
+begin
+	DELETE FROM venta_producto
+    WHERE id_venta = pid_venta;
+    DELETE FROM venta
+    WHERE id = pid_venta;
+end ||
+delimiter ;
+--
+drop procedure if exists pLimpiarVenta;
+delimiter ||
+create procedure pLimpiarVenta()
+begin
+	DELETE FROM venta_producto;
+    DELETE FROM venta;
 end ||
 delimiter ;

@@ -142,7 +142,7 @@ public class Vista extends JFrame {
         cl.show(panelCard, "Helado");
 
         //creo cuadro dialogo
-        //optionDialog = new OptionDialog(this);
+        optionDialog = new OptionDialog(this);
 
         //llamo menu
         setMenu();

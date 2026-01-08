@@ -9,7 +9,7 @@ public class VistaVenta extends JFrame {
 
     JTextField txtEmpleadoVenta;
     JTextField txtClienteVenta;
-    JComboBox comoProducto;
+    JComboBox comboProducto;
     JTextField txtCantidad;
     JButton btnAnnadir;
     JButton btnCancelar;
