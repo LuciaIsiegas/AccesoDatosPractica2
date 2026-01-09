@@ -104,6 +104,7 @@ public class Vista extends JFrame {
     JTable tableCliente;
     JTable tableProveedor;
     JTable tableVenta;
+    JButton btnRefrescarVenta;
 
     DefaultTableModel dtmProducto;
     DefaultTableModel dtmEmpleado;

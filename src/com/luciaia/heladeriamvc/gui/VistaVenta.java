@@ -4,8 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class VistaVenta extends JFrame {
+public class VistaVenta extends JDialog {
     private JPanel panel1;
+    private Frame owner;
 
     JTextField txtEmpleadoVenta;
     JTextField txtClienteVenta;
@@ -22,14 +23,15 @@ public class VistaVenta extends JFrame {
     JTable tableVentaProducto;
     DefaultTableModel dtmVentaProducto;
 
-    public VistaVenta() {
-        super("Venta-Producto");
-        initFrame();
+    public VistaVenta(Frame owner) {
+        super(owner, "Venta-Producto", true);
+        this.owner = owner;
+        initDialog();
     }
 
-    public void initFrame() {
+    public void initDialog() {
         setContentPane(panel1);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setIconImage(new ImageIcon("Icono.png").getImage());
         botonesVisibles();
 
@@ -38,7 +40,7 @@ public class VistaVenta extends JFrame {
 
         pack();
         setVisible(false);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(owner);
     }
 
     private void botonesVisibles() {

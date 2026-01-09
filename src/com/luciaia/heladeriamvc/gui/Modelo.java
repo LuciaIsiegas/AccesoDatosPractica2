@@ -40,8 +40,8 @@ public class Modelo {
             try {
                 // En caso de no tener la BBDD creada la crea por defecto
                 conexion = DriverManager.getConnection("jdbc:mysql://" + ip + ":3306/", user, password);
-                PreparedStatement statement = null;
 
+                PreparedStatement statement = null;
                 String code = leerFichero();
                 String[] query = code.split("--");
                 for (String aQuery : query) {
@@ -176,15 +176,15 @@ public class Modelo {
         }
     }
 
-    void insertarGofre(String nombre, int precio, LocalDate fechaApertura, LocalDate fechaCaducidad, String tipo, int idProveedor, String topping, boolean gluten, String tipoMasa) {
+    void insertarGofre(String nombre, float precio, LocalDate fechaApertura, LocalDate fechaCaducidad, String tipo, int idProveedor, String topping, boolean gluten, String tipoMasa) {
         String sentenciaSql = "call pCrearGofre(?,?,?,?,?,?,?,?,?)";
         CallableStatement sentencia = null;
 
         try {
             sentencia = conexion.prepareCall(sentenciaSql);
             sentencia.setString(1, nombre);
-            sentencia.setInt(2, precio);
-            sentencia.setDate(3, Date.valueOf(fechaApertura));
+            sentencia.setFloat(2, precio);
+            sentencia.setDate(3, fechaApertura == null ? Date.valueOf(LocalDate.now()) : Date.valueOf(fechaApertura));
             sentencia.setDate(4, Date.valueOf(fechaCaducidad));
             sentencia.setString(5, tipo);
             sentencia.setInt(6, idProveedor);
@@ -531,7 +531,7 @@ public class Modelo {
         }
     }
 
-    void eliminarVenta(int id){
+    void eliminarVenta(int id) {
         String sentenciaSql = "call pEliminarVenta(?)";
         CallableStatement sentencia = null;
 
@@ -555,6 +555,14 @@ public class Modelo {
 
 
     // SELECT -------------------------------------------------------------------------------------------
+    public int idUltimaVenta() throws SQLException {
+        String consulta = "select id from venta;";
+        PreparedStatement ps = conexion.prepareStatement(consulta);
+        ResultSet res = ps.executeQuery();
+
+        return res.last() ? res.getInt(1) : null;
+    }
+
     ResultSet consultarProveedor() throws SQLException {
         String sentenciaSql = "SELECT id as 'ID', " +
                 "nombre as 'Proveedor', " +
@@ -607,10 +615,10 @@ public class Modelo {
                 "pd.precio as 'Precio', " +
                 "pd.tipo as 'Tipo', " +
                 "pd.fecha_apertura as 'Fecha Apertura', " +
-                "pd.fecha_caducidad as 'Fecha Caducidad' " +
-                "pv.nombre as 'Proveedor' " +
+                "pd.fecha_caducidad as 'Fecha Caducidad', " +
+                "concat(pv.id, ' - ', pv.nombre) as 'Proveedor' " +
                 "FROM producto pd " +
-                "JOIN proveedor pv on pd.id_proveedor = pv.id" +
+                "JOIN proveedor pv on pd.id_proveedor = pv.id " +
                 "WHERE pd.activo";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
@@ -619,14 +627,47 @@ public class Modelo {
         return resultado;
     }
 
+    ResultSet consultarHelado(int idProducto) throws SQLException {
+        String sentenciaSql = "SELECT h.id as 'ID', " +
+                "h.sabor as 'Sabor', " +
+                "h.azucar as 'Azucar', " +
+                "h.litros as 'Litros' " +
+                "FROM helado h " +
+                "JOIN producto p on h.id_producto = p.id " +
+                "WHERE h.id_producto = ?";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setInt(1, idProducto);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
+    ResultSet consultarGofre(int idProducto) throws SQLException {
+        String sentenciaSql = "SELECT g.id as 'ID', " +
+                "g.topping as 'Topping', " +
+                "g.gluten as 'Gluten', " +
+                "g.tipo_masa as 'Tipo Masa' " +
+                "FROM gofre g " +
+                "JOIN producto p on g.id_producto = p.id " +
+                "WHERE g.id_producto = ?";
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+        sentencia = conexion.prepareStatement(sentenciaSql);
+        sentencia.setInt(1, idProducto);
+        resultado = sentencia.executeQuery();
+        return resultado;
+    }
+
     ResultSet consultarVenta() throws SQLException {
         String sentenciaSql = "SELECT v.id as 'ID', " +
-                "v.id_empleado as 'Empleado', " +
-                "c.email as 'Cliente', " +
+                "concat(e.id, ' - ', e.email) as 'Empleado', " +
+                "concat(c.id, ' - ', c.email) as 'Cliente', " +
                 "v.cantidad as 'Cantidad', " +
                 "v.precio_total as 'Precio Total' " +
                 "FROM venta v " +
-                "JOIN cliente c on c.id = v.id_cliente";
+                "JOIN cliente c on c.id = v.id_cliente " +
+                "JOIN empleado e on e.id = v.id_empleado";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         sentencia = conexion.prepareStatement(sentenciaSql);
@@ -865,7 +906,7 @@ public class Modelo {
         }
     }
 
-    void limpiarBBDDVenta(){
+    void limpiarBBDDVenta() {
         String sentenciaSql = "call pLimpiarVenta()";
         CallableStatement sentencia = null;
 
@@ -888,7 +929,7 @@ public class Modelo {
 
 
     // EXISTE ------------------------------------------------------------------------------------------
-    public boolean proveedorExiste(String nombreProveedor){
+    public boolean proveedorExiste(String nombreProveedor) {
         String proveedorConsult = "SELECT fExisteProveedor(?)";
         PreparedStatement function;
         boolean proveedorExists = false;
@@ -905,7 +946,7 @@ public class Modelo {
         return proveedorExists;
     }
 
-    public boolean empleadoExiste(String emailEmpleado){
+    public boolean empleadoExiste(String emailEmpleado) {
         String empleadoConsult = "SELECT fExisteEmpleado(?)";
         PreparedStatement function;
         boolean empleadoExists = false;
@@ -922,7 +963,7 @@ public class Modelo {
         return empleadoExists;
     }
 
-    public boolean clienteExiste(String emailCliente){
+    public boolean clienteExiste(String emailCliente) {
         String clienteConsult = "SELECT fExisteCliente(?)";
         PreparedStatement function;
         boolean clienteExists = false;
@@ -939,7 +980,7 @@ public class Modelo {
         return clienteExists;
     }
 
-    public boolean productoExiste(String nombreProducto){
+    public boolean productoExiste(String nombreProducto) {
         String productoConsult = "SELECT fExisteProducto(?)";
         PreparedStatement function;
         boolean productoExists = false;
@@ -956,7 +997,6 @@ public class Modelo {
         return productoExists;
     }
     // FIN EXISTE -----------------------------------------------------------------------------------------------------
-
 
 
     private void getPropValues() {
@@ -1002,7 +1042,6 @@ public class Modelo {
         this.password = pass;
         this.adminPassword = adminPass;
     }
-
 
 
 }

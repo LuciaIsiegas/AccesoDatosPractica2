@@ -18,8 +18,8 @@ public class Util {
 
     public static boolean esFloat(String numero) {
         try {
-            Float.parseFloat(numero);
-            return true;
+            float decimal = Float.parseFloat(numero);
+            return decimal > 0;
         } catch (NumberFormatException ne) {
             return false;
         }
@@ -27,19 +27,19 @@ public class Util {
 
     public static boolean esEntero(String numero) {
         try {
-            Integer.parseInt(numero);
-            return true;
+            float entero = Integer.parseInt(numero);
+            return entero > 0;
         } catch (NumberFormatException ne) {
             return false;
         }
     }
 
     public static boolean longitudCorrecta(String texto, int longitud) {
-        return texto == null || texto.length() <= longitud;
+        return texto.isEmpty() || texto.length() <= longitud;
     }
 
     public static boolean validarTelefono(String telefono) {
-        return telefono == null || telefono.matches("\\d{9}");
+        return telefono.isEmpty() || telefono.matches("\\d{9}");
     }
 
     public static boolean validarEmail(String email) {
@@ -53,17 +53,5 @@ public class Util {
 
     public static boolean consultaValida(String input) {
         return !input.contains(";") && !input.toLowerCase().contains("delete");
-    }
-
-    public static boolean fechaValida(String input) {
-        return input.matches("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
-    }
-
-    public static boolean rangoFechasValido(LocalDate fechaInicio, LocalDate fechaFin) {
-        if (!fechaInicio.isBefore(fechaFin)) {
-            System.out.println("La fecha de inicio debe ir antes que la de fin");
-            return false;
-        }
-        return true;
     }
 }
