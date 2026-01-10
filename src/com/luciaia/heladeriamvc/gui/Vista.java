@@ -229,15 +229,40 @@ public class Vista extends JFrame {
     }
 
     private void setTableModels() {
-        dtmProducto = new DefaultTableModel();
+        dtmProducto = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableProducto.setModel(dtmProducto);
-        dtmEmpleado = new DefaultTableModel();
+        dtmEmpleado = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableEmpleado.setModel(dtmEmpleado);
-        dtmCliente = new DefaultTableModel();
+        dtmCliente = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableCliente.setModel(dtmCliente);
-        dtmProveedor = new DefaultTableModel();
+        dtmProveedor = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableProveedor.setModel(dtmProveedor);
-        dtmVenta = new DefaultTableModel();
+        dtmVenta = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableVenta.setModel(dtmVenta);
     }
 

@@ -49,7 +49,12 @@ public class VistaVenta extends JDialog {
     }
 
     private void setTableModel() {
-        dtmVentaProducto = new DefaultTableModel();
+        dtmVentaProducto = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableVentaProducto.setModel(dtmVentaProducto);
     }
 

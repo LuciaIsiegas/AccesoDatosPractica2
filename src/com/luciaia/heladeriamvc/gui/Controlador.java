@@ -18,6 +18,14 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
     private Modelo modelo;
     private Vista vista;
     private VistaVenta vistaVenta;
+    boolean editando;
+    int filaEditando;
+    boolean filtroProducto;
+    boolean filtroEmpleado;
+    boolean filtroCliente;
+    boolean filtroProveedor;
+    boolean filtroVentaEmpleado;
+    boolean filtroVentaCliente;
     boolean refrescar;
     private int idVenta;
 
@@ -26,6 +34,14 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         this.vista = vista;
         this.vistaVenta = new VistaVenta(vista);
         this.idVenta = 0;
+        this.filaEditando = -1;
+        this.filtroProducto = false;
+        this.filtroEmpleado = false;
+        this.filtroCliente = false;
+        this.filtroProveedor = false;
+        this.filtroVentaEmpleado = false;
+        this.filtroVentaCliente = false;
+        this.editando = false;
 
         modelo.conectar();
         setOptions();
@@ -123,26 +139,28 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return false;
         }
 
-        if (hayCamposVaciosProducto()
-                || !Util.longitudCorrecta(vista.txtNombreProducto.getText(), 50)
-                || modelo.productoExiste(vista.txtNombreProducto.getText())
-                || !Util.esFloat(vista.txtPrecioProducto.getText())) {
-            Util.mensajeError("Por favor compruebe los datos de nuevo: \n" +
-                    "- Campos obligatorios (*)\n" +
-                    "- Nombre del producto repetido (máximo 50 carácteres)\n" +
-                    "- Precio en formato de número decimal o entero (positivo)", "Campos Incorrectos");
+        if (hayCamposVaciosProducto() || (vista.radioHelado.isSelected() && hayCamposVaciosHelado()) || vista.radioGofre.isSelected() && hayCamposVaciosGofre()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
             return false;
         }
-        if (vista.radioHelado.isSelected() && hayCamposVaciosHelado()
-                && !Util.esFloat(vista.panelHelado.litrosHeladoTxt.getText())) {
-            Util.mensajeError("Por favor compruebe los datos de nuevo: \n" +
-                    "- Campos obligatorios (*)\n" +
-                    "- Litros en formato de número decimal o entero (positivo)", "Campos Incorrectos");
+
+        if (!Util.longitudCorrecta(vista.txtNombreProducto.getText(), 50)) {
+            Util.mensajeError("El nombre del producto excede el máximo de carácteres (max 50)", "Campos Incorrectos");
             return false;
         }
-        if (vista.radioGofre.isSelected() && hayCamposVaciosGofre()) {
-            Util.mensajeError("Por favor compruebe los datos de nuevo: \n" +
-                    "- Campos obligatorios (*)", "Campos Incorrectos");
+
+        if (!editando && modelo.productoExiste(vista.txtNombreProducto.getText())) {
+            Util.mensajeError("El nombre del producto ya está en uso", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.esFloat(vista.txtPrecioProducto.getText())) {
+            Util.mensajeError("Precio en formato de número decimal o entero (positivo)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (vista.radioHelado.isSelected() && !Util.esFloat(vista.panelHelado.litrosHeladoTxt.getText())) {
+            Util.mensajeError("Litros en formato de número decimal o entero (positivo)", "Campos Incorrectos");
             return false;
         }
         return true;
@@ -158,19 +176,38 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return false;
         }
 
-        if (hayCamposVaciosEmpleado()
-                || !Util.longitudCorrecta(vista.txtNombreEmpeado.getText(), 50)
-                || !Util.longitudCorrecta(vista.txtApellidosEmpleado.getText(), 100)
-                || !Util.longitudCorrecta(vista.txtEmailEmpleado.getText(), 100)
-                || modelo.empleadoExiste(vista.txtEmailEmpleado.getText())
-                || !Util.validarEmail(vista.txtEmailEmpleado.getText())
-                || !Util.validarTelefono(vista.txtTelefonoEmpleado.getText())) {
-            Util.mensajeError("Por favor compruebe los datos de nuevo: \n" +
-                    "- Campos obligatorios (*)\n" +
-                    "- Nombre no repetido (máximo 50 carácteres)\n" +
-                    "- Apellidos (máximo 100 carácteres)\n" +
-                    "- Email (máximo 100 carácteres)\n" +
-                    "- Teléfono válido (9 dígitos)", "Campos Incorrectos");
+        if (hayCamposVaciosEmpleado()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtEmailEmpleado.getText(), 100)) {
+            Util.mensajeError("El email del empleado excede el máximo de carácteres (max 100)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.validarEmail(vista.txtEmailEmpleado.getText())) {
+            Util.mensajeError("El email del empleado no tiene un formato correcto", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!editando && modelo.empleadoExiste(vista.txtEmailEmpleado.getText())) {
+            Util.mensajeError("El email del empleado ya está en uso", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtNombreEmpeado.getText(), 50)) {
+            Util.mensajeError("El nombre del empleado excede el máximo de carácteres (max 50)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtApellidosEmpleado.getText(), 100)) {
+            Util.mensajeError("Los apellidos del empleado exceden el máximo de carácteres (max 100)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.validarTelefono(vista.txtTelefonoEmpleado.getText())) {
+            Util.mensajeError("El teléfono del empleado no tiene un formato correcto (9 dígitos)", "Campos Incorrectos");
             return false;
         }
         return true;
@@ -186,19 +223,38 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return false;
         }
 
-        if (hayCamposVaciosCliente()
-                || !Util.longitudCorrecta(vista.txtNombreCliente.getText(), 50)
-                || !Util.longitudCorrecta(vista.txtApellidosCliente.getText(), 100)
-                || !Util.longitudCorrecta(vista.txtEmailCliente.getText(), 100)
-                || !Util.validarEmail(vista.txtEmailCliente.getText())
-                || modelo.clienteExiste(vista.txtEmailCliente.getText())
-                || !Util.validarTelefono(vista.txtTelefonoCliente.getText())) {
-            Util.mensajeError("Por favor compruebe los datos de nuevo: \n" +
-                    "- Campos obligatorios (*)\n" +
-                    "- Nombre no repetido (máximo 50 carácteres)\n" +
-                    "- Apellidos (máximo 100 carácteres)\n" +
-                    "- Email (máximo 100 carácteres)\n" +
-                    "- Teléfono válido (9 dígitos)", "Campos Incorrectos");
+        if (hayCamposVaciosCliente()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtEmailCliente.getText(), 100)) {
+            Util.mensajeError("El email del cliente excede el máximo de carácteres (max 100)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.validarEmail(vista.txtEmailCliente.getText())) {
+            Util.mensajeError("El email del cliente no tiene un formato correcto", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!editando && modelo.clienteExiste(vista.txtEmailCliente.getText())) {
+            Util.mensajeError("El email del cliente ya está en uso", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtNombreCliente.getText(), 50)) {
+            Util.mensajeError("El nombre del cliente excede el máximo de carácteres (max 50)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtApellidosCliente.getText(), 100)) {
+            Util.mensajeError("Los apellidos del cliente exceden el máximo de carácteres (max 100)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.validarTelefono(vista.txtTelefonoCliente.getText())) {
+            Util.mensajeError("El teléfono del cliente no tiene un formato correcto (9 dígitos)", "Campos Incorrectos");
             return false;
         }
         return true;
@@ -215,21 +271,43 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return false;
         }
 
-        if (hayCamposVaciosProveedor()
-                || !Util.longitudCorrecta(vista.txtNombreProveedor.getText(), 50)
-                || !Util.longitudCorrecta(vista.txtContactoProveedor.getText(), 50)
-                || !Util.longitudCorrecta(vista.txtEmailProveedor.getText(), 100)
-                || !Util.longitudCorrecta(vista.txtDireccionProveedor.getText(), 200)
-                || !Util.validarEmail(vista.txtEmailProveedor.getText())
-                || modelo.proveedorExiste(vista.txtNombreProveedor.getText())
-                || !Util.validarTelefono(vista.txtTelefonoProveedor.getText())) {
-            Util.mensajeError("Por favor compruebe los datos de nuevo: \n" +
-                    "- Campos obligatorios (*)\n" +
-                    "- Nombre no repetido (máximo 50 carácteres)\n" +
-                    "- Apellidos (máximo 100 carácteres)\n" +
-                    "- Email (máximo 100 carácteres)\n" +
-                    "- Teléfono válido (9 dígitos)\n" +
-                    "- Direccion (máximo 200 carácteres)", "Campos Incorrectos");
+        if (hayCamposVaciosProveedor()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtNombreProveedor.getText(), 50)) {
+            Util.mensajeError("El nombre del proveedor excede el máximo de carácteres (max 50)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!editando && modelo.proveedorExiste(vista.txtNombreProveedor.getText())) {
+            Util.mensajeError("El nombre del proveedor ya está en uso", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtEmailProveedor.getText(), 100)) {
+            Util.mensajeError("El email del proveedor excede el máximo de carácteres (max 100)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.validarEmail(vista.txtEmailProveedor.getText())) {
+            Util.mensajeError("El email del proveedor no tiene un formato correcto", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtContactoProveedor.getText(), 50)) {
+            Util.mensajeError("El contacto del proveedor exceden el máximo de carácteres (max 50)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.longitudCorrecta(vista.txtDireccionProveedor.getText(), 200)) {
+            Util.mensajeError("La dirección del proveedor exceden el máximo de carácteres (max 200)", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.validarTelefono(vista.txtTelefonoProveedor.getText())) {
+            Util.mensajeError("El teléfono del proveedor no tiene un formato correcto (9 dígitos)", "Campos Incorrectos");
             return false;
         }
         return true;
@@ -238,11 +316,17 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
     private boolean validarCamposVentaProducto() {
         // Consultas válidas
         if (!Util.consultaValida(vistaVenta.txtCantidad.getText())) {
+            Util.mensajeError("Por favor introduzca correctamente los datos", "Campos Erróneos");
             return false;
         }
 
-        if (hayCamposVaciosVentaProducto()
-                || !Util.esEntero(vistaVenta.txtCantidad.getText())) {
+        if (hayCamposVaciosVentaProducto()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
+            return false;
+        }
+
+        if (!Util.esEntero(vistaVenta.txtCantidad.getText())) {
+            Util.mensajeError("Cantidad en formato de número entero (positivo)", "Campos Incorrectos");
             return false;
         }
         return true;
@@ -259,81 +343,84 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.tableProducto.setEnabled(true);
         vista.btnGuardarProducto.setVisible(false);
         vista.btnCancelarProducto.setVisible(false);
-        vista.btnEditaProducto.setVisible(true);
-        vista.btnNuevoProducto.setVisible(true);
-        vista.btnLimpiarProducto.setVisible(true);
-        vista.btnEliminarProducto.setVisible(true);
-        vista.btnBorrarBBDDProducto.setVisible(true);
+        vista.btnEditaProducto.setEnabled(true);
+        vista.btnNuevoProducto.setEnabled(true);
+        vista.btnBorrarBBDDProducto.setEnabled(true);
+        vista.btnLimpiarProducto.setEnabled(true);
         vista.txtBusquedaProducto.setText(null);
 
         limpiarCamposProducto();
         limpiarCamposHelado();
         limpiarCamposGofre();
         refrescarProducto();
+        editando = false;
     }
 
     private void resetearEmpleado() {
+        vista.txtEmailEmpleado.setEditable(true);
         vista.tableEmpleado.setEnabled(true);
         vista.btnGuardarEmpleado.setVisible(false);
         vista.btnCancelarEmpleado.setVisible(false);
-        vista.btnEditarEmpleado.setVisible(true);
-        vista.btnNuevoEmpleado.setVisible(true);
-        vista.btnLimpiarEmpleado.setVisible(true);
-        vista.btnEliminarEmpleado.setVisible(true);
-        vista.btnBorrarBBDDEmpleado.setVisible(true);
+        vista.btnEditarEmpleado.setEnabled(true);
+        vista.btnNuevoEmpleado.setEnabled(true);
+        vista.btnLimpiarEmpleado.setEnabled(true);
+        vista.btnBorrarBBDDEmpleado.setEnabled(true);
         vista.txtBuscarEmpleado.setText(null);
 
         limpiarCamposEmpleado();
         refrescarEmpleado();
+        editando = false;
     }
 
     private void resetearCliente() {
+        vista.txtEmailCliente.setEditable(true);
         vista.tableCliente.setEnabled(true);
         vista.btnGuardarCliente.setVisible(false);
         vista.btnCancelarCliente.setVisible(false);
-        vista.btnEditarCliente.setVisible(true);
-        vista.btnNuevoCliente.setVisible(true);
-        vista.btnLimpiarCliente.setVisible(true);
-        vista.btnEliminarCliente.setVisible(true);
-        vista.btnBorrarBBDDCliente.setVisible(true);
+        vista.btnEditarCliente.setEnabled(true);
+        vista.btnNuevoCliente.setEnabled(true);
+        vista.btnLimpiarCliente.setEnabled(true);
+        vista.btnBorrarBBDDCliente.setEnabled(true);
         vista.txtBuscarCliente.setText(null);
 
         limpiarCamposCliente();
         refrescarCliente();
+        editando = false;
     }
 
     private void resetearProveedor() {
+        vista.txtNombreProveedor.setEditable(true);
         vista.tableProveedor.setEnabled(true);
         vista.btnGuardarProveedor.setVisible(false);
         vista.btnCancelarProveedor.setVisible(false);
-        vista.btnEditarProveedor.setVisible(true);
-        vista.btnNuevoProveedor.setVisible(true);
-        vista.btnLimpiarProveedor.setVisible(true);
-        vista.btnEliminarProveedor.setVisible(true);
-        vista.btnBorrarBBDDProveedor.setVisible(true);
+        vista.btnEditarProveedor.setEnabled(true);
+        vista.btnNuevoProveedor.setEnabled(true);
+        vista.btnLimpiarProveedor.setEnabled(true);
+        vista.btnBorrarBBDDProveedor.setEnabled(true);
         vista.txtBuscarProveedor.setText(null);
 
         limpiarCamposProveedor();
         refrescarProveedor();
+        editando = false;
     }
 
     private void resetearVenta() {
         vista.tableVenta.setEnabled(true);
         limpiarCamposVenta();
         refrescarVenta();
+        editando = false;
     }
 
     private void resetearVentaProducto() {
+        limpiarCamposVentaProducto();
+        refrescarVentaProducto(idVenta);
         vistaVenta.tableVentaProducto.setEnabled(true);
         vistaVenta.btnGuardar.setVisible(false);
         vistaVenta.btnCancelar.setVisible(false);
-        vistaVenta.btnEditar.setVisible(true);
-        vistaVenta.btnAnnadir.setVisible(true);
-        vistaVenta.btnEliminar.setVisible(true);
-        vistaVenta.btnBorrarBBDDVentaProducto.setVisible(true);
-
-        limpiarCamposVentaProducto();
-        refrescarVentaProducto(idVenta);
+        vistaVenta.btnEditar.setEnabled(true);
+        vistaVenta.btnAnnadir.setEnabled(true);
+        vistaVenta.btnBorrarBBDDVentaProducto.setEnabled(true);
+        editando = false;
     }
 
     private void limpiarCamposProducto() {
@@ -406,6 +493,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
     private void refrescarProveedor() {
         try {
+            filtroProveedor = false;
+            vista.btnBuscarProveedor.setText("Buscar");
+            vista.txtBuscarProveedor.setText(null);
             vista.tableProveedor.setModel(construirTableModeloProveedor(modelo.consultarProveedor()));
             vista.comboProveedor.removeAllItems();
             for (int i = 0; i < vista.dtmProveedor.getRowCount(); i++) {
@@ -419,6 +509,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
     private void refrescarEmpleado() {
         try {
+            filtroEmpleado = false;
+            vista.btnBuscarEmpleado.setText("Buscar");
+            vista.txtBuscarEmpleado.setText(null);
             vista.tableEmpleado.setModel(construirTableModeloEmpleado(modelo.consultarEmpleado()));
             vista.comboEmpleado.removeAllItems();
             for (int i = 0; i < vista.dtmEmpleado.getRowCount(); i++) {
@@ -432,6 +525,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
     private void refrescarCliente() {
         try {
+            filtroCliente = false;
+            vista.btnBuscarCliente.setText("Buscar");
+            vista.txtBuscarCliente.setText(null);
             vista.tableCliente.setModel(construirTableModeloCliente(modelo.consultarCliente()));
             vista.comboCliente.removeAllItems();
             for (int i = 0; i < vista.dtmCliente.getRowCount(); i++) {
@@ -445,6 +541,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
     private void refrescarProducto() {
         try {
+            filtroProducto = false;
+            vista.btnBuscarProducto.setText("Buscar");
+            vista.txtBusquedaProducto.setText(null);
             vista.tableProducto.setModel(construirTableModeloProducto(modelo.consultarProducto()));
             vistaVenta.comboProducto.removeAllItems();
             for (int i = 0; i < vista.dtmProducto.getRowCount(); i++) {
@@ -652,6 +751,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
     private void nuevoVenta() {
         if (hayCamposVaciosVenta()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
             return;
         }
         modelo.crearVenta(
@@ -660,10 +760,8 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         );
         try {
             idVenta = modelo.idUltimaVenta();
-            vistaVenta.setVisible(true);
             resetearVentaProducto();
-            limpiarCamposVentaProducto();
-            refrescarVentaProducto(idVenta);
+            vistaVenta.setVisible(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -677,30 +775,31 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                 Integer.parseInt(vistaVenta.txtCantidad.getText()), idVenta,
                 Integer.parseInt(String.valueOf(vistaVenta.comboProducto.getSelectedItem()).split(" ")[0])
         );
-        modelo.generarVenta(idVenta);
         resetearVentaProducto();
         refrescarVenta();
+        modelo.generarVenta(idVenta);
+        Util.mensajeInfo("Se ha añadido un nuevo producto", "Nuevo Producto");
     }
     // NUEVO FIN -----------------------------------------------------------------------------------------
 
 
     // EDITAR -----------------------------------------------------------------------------------------
     private void editarProducto() {
-        int fila = vista.tableProducto.getSelectedRow();
-        if (fila < 0) {
+        filaEditando = vista.tableProducto.getSelectedRow();
+        if (filaEditando < 0) {
             Util.mensajeError("No hay ningún producto seleccionado", "Selecciona un producto");
             return;
         }
-        int idProducto = (int) vista.tableProducto.getValueAt(fila, 0);
+        int idProducto = (int) vista.tableProducto.getValueAt(filaEditando, 0);
 
-        vista.txtNombreProducto.setText((String) vista.tableProducto.getValueAt(fila, 1));
-        vista.txtPrecioProducto.setText(String.valueOf(vista.tableProducto.getValueAt(fila, 2)));
-        vista.dateApertura.setDate(LocalDate.parse(String.valueOf(vista.tableProducto.getValueAt(fila, 4))));
-        vista.dateCaducidad.setDate(LocalDate.parse(String.valueOf(vista.tableProducto.getValueAt(fila, 5))));
-        vista.comboProveedor.setSelectedItem(vista.tableProducto.getValueAt(fila, 6));
+        vista.txtNombreProducto.setText((String) vista.tableProducto.getValueAt(filaEditando, 1));
+        vista.txtPrecioProducto.setText(String.valueOf(vista.tableProducto.getValueAt(filaEditando, 2)));
+        vista.dateApertura.setDate(LocalDate.parse(String.valueOf(vista.tableProducto.getValueAt(filaEditando, 4))));
+        vista.dateCaducidad.setDate(LocalDate.parse(String.valueOf(vista.tableProducto.getValueAt(filaEditando, 5))));
+        vista.comboProveedor.setSelectedItem(vista.tableProducto.getValueAt(filaEditando, 6));
 
         try {
-            if (((String) vista.tableProducto.getValueAt(fila, 3)).equals("helado")) {
+            if (((String) vista.tableProducto.getValueAt(filaEditando, 3)).equals("helado")) {
                 vista.radioHelado.doClick();
 
                 ResultSet helado = modelo.consultarHelado(idProducto);
@@ -714,7 +813,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                     vista.panelHelado.litrosHeladoTxt.setText(String.valueOf(helado.getFloat(4)));
                 }
 
-            } else if (((String) vista.tableProducto.getValueAt(fila, 3)).equals("gofre")) {
+            } else if (((String) vista.tableProducto.getValueAt(filaEditando, 3)).equals("gofre")) {
                 vista.radioGofre.doClick();
 
                 ResultSet gofre = modelo.consultarGofre(idProducto);
@@ -739,93 +838,103 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
         vista.btnGuardarProducto.setVisible(true);
         vista.btnCancelarProducto.setVisible(true);
-        vista.btnEditaProducto.setVisible(false);
-        vista.btnNuevoProducto.setVisible(false);
-        vista.btnBorrarBBDDProducto.setVisible(false);
-        vista.btnLimpiarProducto.setVisible(false);
+        vista.btnEditaProducto.setEnabled(false);
+        vista.btnNuevoProducto.setEnabled(false);
+        vista.btnBorrarBBDDProducto.setEnabled(false);
+        vista.btnLimpiarProducto.setEnabled(false);
+        editando = true;
     }
 
     private void editarEmpleado() {
-        int fila = vista.tableEmpleado.getSelectedRow();
-        if (fila < 0) {
+        filaEditando = vista.tableEmpleado.getSelectedRow();
+        if (filaEditando < 0) {
             Util.mensajeError("No hay ningún empleado seleccionado", "Selecciona un empleado");
             return;
         }
 
-        vista.txtNombreEmpeado.setText((String) vista.tableEmpleado.getValueAt(fila, 1));
-        vista.txtApellidosEmpleado.setText((String) vista.tableEmpleado.getValueAt(fila, 2));
-        vista.txtEmailEmpleado.setText((String) vista.tableEmpleado.getValueAt(fila, 3));
-        vista.txtTelefonoEmpleado.setText((String) vista.tableEmpleado.getValueAt(fila, 4));
+        vista.txtNombreEmpeado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 1));
+        vista.txtApellidosEmpleado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 2));
+        vista.txtEmailEmpleado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 3));
+        vista.txtTelefonoEmpleado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 4));
 
         vista.tableEmpleado.setEnabled(false);
+        vista.txtEmailEmpleado.setEditable(false);
+
         vista.btnGuardarEmpleado.setVisible(true);
         vista.btnCancelarEmpleado.setVisible(true);
-        vista.btnEditarEmpleado.setVisible(false);
-        vista.btnNuevoEmpleado.setVisible(false);
-        vista.btnBorrarBBDDEmpleado.setVisible(false);
-        vista.btnLimpiarEmpleado.setVisible(false);
+        vista.btnEditarEmpleado.setEnabled(false);
+        vista.btnNuevoEmpleado.setEnabled(false);
+        vista.btnBorrarBBDDEmpleado.setEnabled(false);
+        vista.btnLimpiarEmpleado.setEnabled(false);
+        editando = true;
     }
 
     private void editarCliente() {
-        int fila = vista.tableCliente.getSelectedRow();
-        if (fila < 0) {
+        filaEditando = vista.tableCliente.getSelectedRow();
+        if (filaEditando < 0) {
             Util.mensajeError("No hay ningún cliente seleccionado", "Selecciona un cliente");
             return;
         }
 
-        vista.txtNombreCliente.setText((String) vista.tableCliente.getValueAt(fila, 1));
-        vista.txtApellidosCliente.setText((String) vista.tableCliente.getValueAt(fila, 2));
-        vista.txtEmailCliente.setText((String) vista.tableCliente.getValueAt(fila, 3));
-        vista.txtTelefonoCliente.setText((String) vista.tableCliente.getValueAt(fila, 4));
+        vista.txtNombreCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 1));
+        vista.txtApellidosCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 2));
+        vista.txtEmailCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 3));
+        vista.txtTelefonoCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 4));
 
         vista.tableCliente.setEnabled(false);
+        vista.txtEmailCliente.setEditable(false);
+
         vista.btnGuardarCliente.setVisible(true);
         vista.btnCancelarCliente.setVisible(true);
-        vista.btnEditarCliente.setVisible(false);
-        vista.btnNuevoCliente.setVisible(false);
-        vista.btnBorrarBBDDCliente.setVisible(false);
-        vista.btnLimpiarCliente.setVisible(false);
+        vista.btnEditarCliente.setEnabled(false);
+        vista.btnNuevoCliente.setEnabled(false);
+        vista.btnBorrarBBDDCliente.setEnabled(false);
+        vista.btnLimpiarCliente.setEnabled(false);
+        editando = true;
     }
 
     private void editarProveedor() {
-        int fila = vista.tableProveedor.getSelectedRow();
-        if (fila < 0) {
+        filaEditando = vista.tableProveedor.getSelectedRow();
+        if (filaEditando < 0) {
             Util.mensajeError("No hay ningún proveedor seleccionado", "Selecciona un proveedor");
             return;
         }
 
-        vista.txtNombreProveedor.setText((String) vista.tableProveedor.getValueAt(fila, 1));
-        vista.txtContactoProveedor.setText((String) vista.tableProveedor.getValueAt(fila, 2));
-        vista.txtEmailProveedor.setText((String) vista.tableProveedor.getValueAt(fila, 3));
-        vista.txtTelefonoProveedor.setText((String) vista.tableProveedor.getValueAt(fila, 4));
-        vista.txtDireccionProveedor.setText((String) vista.tableProveedor.getValueAt(fila, 5));
+        vista.txtNombreProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 1));
+        vista.txtContactoProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 2));
+        vista.txtEmailProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 3));
+        vista.txtTelefonoProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 4));
+        vista.txtDireccionProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 5));
 
         vista.tableProveedor.setEnabled(false);
+        vista.txtNombreProveedor.setEditable(false);
+
         vista.btnGuardarProveedor.setVisible(true);
         vista.btnCancelarProveedor.setVisible(true);
-        vista.btnEditarProveedor.setVisible(false);
-        vista.btnNuevoProveedor.setVisible(false);
-        vista.btnBorrarBBDDProveedor.setVisible(false);
-        vista.btnLimpiarProveedor.setVisible(false);
+        vista.btnEditarProveedor.setEnabled(false);
+        vista.btnNuevoProveedor.setEnabled(false);
+        vista.btnBorrarBBDDProveedor.setEnabled(false);
+        vista.btnLimpiarProveedor.setEnabled(false);
+        editando = true;
     }
 
     private void editarVenta() {
-        int fila = vista.tableVenta.getSelectedRow();
-        if (fila < 0) {
+        filaEditando = vista.tableVenta.getSelectedRow();
+        if (filaEditando < 0) {
             Util.mensajeError("No hay ninguna venta seleccionado", "Selecciona una venta");
             return;
         }
 
-        idVenta = (int) vista.tableVenta.getValueAt(fila, 0);
-        vista.comboEmpleado.setSelectedItem(vista.tableVenta.getValueAt(fila, 1));
-        vista.comboCliente.setSelectedItem(vista.tableVenta.getValueAt(fila, 2));
-        vistaVenta.setVisible(true);
+        idVenta = (int) vista.tableVenta.getValueAt(filaEditando, 0);
+        vista.comboEmpleado.setSelectedItem(vista.tableVenta.getValueAt(filaEditando, 1));
+        vista.comboCliente.setSelectedItem(vista.tableVenta.getValueAt(filaEditando, 2));
         resetearVentaProducto();
+        vistaVenta.setVisible(true);
     }
 
     private void editarVentaProducto() {
-        int fila = vistaVenta.tableVentaProducto.getSelectedRow();
-        if (fila < 0) {
+        filaEditando = vistaVenta.tableVentaProducto.getSelectedRow();
+        if (filaEditando < 0) {
             Util.mensajeError("No hay ninguna línea seleccionado", "Selecciona una línea");
             return;
         }
@@ -833,18 +942,112 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vistaVenta.txtEmpleadoVenta.setText(String.valueOf(vista.comboEmpleado.getSelectedItem()));
         vistaVenta.txtClienteVenta.setText(String.valueOf(vista.comboCliente.getSelectedItem()));
         vistaVenta.comboProducto.setSelectedItem(
-                vistaVenta.tableVentaProducto.getValueAt(fila, 1) + " - "
-                        + vistaVenta.tableVentaProducto.getValueAt(fila, 2)
+                vistaVenta.tableVentaProducto.getValueAt(filaEditando, 1) + " - "
+                        + vistaVenta.tableVentaProducto.getValueAt(filaEditando, 2)
         );
-        vistaVenta.txtCantidad.setText(String.valueOf(vistaVenta.tableVentaProducto.getValueAt(fila, 4)));
+        vistaVenta.txtCantidad.setText(String.valueOf(vistaVenta.tableVentaProducto.getValueAt(filaEditando, 4)));
         vistaVenta.tableVentaProducto.setEnabled(false);
         vistaVenta.btnGuardar.setVisible(true);
         vistaVenta.btnCancelar.setVisible(true);
-        vistaVenta.btnEditar.setVisible(false);
-        vistaVenta.btnAnnadir.setVisible(false);
-        vistaVenta.btnBorrarBBDDVentaProducto.setVisible(false);
+        vistaVenta.btnEditar.setEnabled(false);
+        vistaVenta.btnAnnadir.setEnabled(false);
+        vistaVenta.btnBorrarBBDDVentaProducto.setEnabled(false);
+        editando = true;
     }
     // EDITAR FIN -----------------------------------------------------------------------------------------
+
+
+    // GUARDAR -----------------------------------------------------------------------------------------
+    private void guardarProducto() {
+        if (!validarCamposProducto()) {
+            return;
+        }
+
+        if (vista.radioHelado.isSelected()) {
+            modelo.modificarHelado(
+                    Integer.parseInt(String.valueOf(vista.dtmProducto.getValueAt(filaEditando, 0))),
+                    Float.parseFloat(vista.txtPrecioProducto.getText()),
+                    vista.dateApertura.getDate(), vista.dateCaducidad.getDate(),
+                    Integer.parseInt(String.valueOf(vista.comboProveedor.getSelectedItem()).split(" ")[0]),
+                    String.valueOf(vista.panelHelado.comboSabor.getSelectedItem()),
+                    vista.panelHelado.conAzucarRadioButton.isSelected(),
+                    Float.parseFloat(vista.panelHelado.litrosHeladoTxt.getText())
+            );
+        } else if (vista.radioGofre.isSelected()) {
+            modelo.modificarGofre(
+                    Integer.parseInt(String.valueOf(vista.dtmProducto.getValueAt(filaEditando, 0))),
+                    Float.parseFloat(vista.txtPrecioProducto.getText()),
+                    vista.dateApertura.getDate(), vista.dateCaducidad.getDate(),
+                    Integer.parseInt(String.valueOf(vista.comboProveedor.getSelectedItem()).split(" ")[0]),
+                    String.valueOf(vista.panelGofre.comboToppingGofre.getSelectedItem()),
+                    vista.panelGofre.conGlutenRadioButton.isSelected(),
+                    String.valueOf(vista.panelGofre.tipoMasaComboBox.getSelectedItem())
+            );
+        }
+
+        resetearProducto();
+        Util.mensajeInfo("Cambios guardados con éxito", "Editar Producto");
+    }
+
+    private void guardarEmpleado() {
+        if (!validarCamposEmpleado()) {
+            return;
+        }
+
+        modelo.modificarEmpleado(
+                Integer.parseInt(String.valueOf(vista.dtmEmpleado.getValueAt(filaEditando, 0))),
+                vista.txtNombreEmpeado.getText(), vista.txtApellidosEmpleado.getText(),
+                vista.txtEmailEmpleado.getText(), vista.txtTelefonoEmpleado.getText()
+        );
+
+        resetearEmpleado();
+        Util.mensajeInfo("Cambios guardados con éxito", "Editar Empleado");
+    }
+
+    private void guardarCliente() {
+        if (!validarCamposCliente()) {
+            return;
+        }
+
+        modelo.modificarCliente(
+                Integer.parseInt(String.valueOf(vista.dtmCliente.getValueAt(filaEditando, 0))),
+                vista.txtNombreCliente.getText(), vista.txtApellidosCliente.getText(),
+                vista.txtEmailCliente.getText(), vista.txtTelefonoCliente.getText()
+        );
+
+        resetearCliente();
+        Util.mensajeInfo("Cambios guardados con éxito", "Editar Cliente");
+    }
+
+    private void guardarProveedor() {
+        if (!validarCamposProveedor()) {
+            return;
+        }
+
+        modelo.modificarProveedor(
+                Integer.parseInt(String.valueOf(vista.dtmProveedor.getValueAt(filaEditando, 0))),
+                vista.txtNombreProveedor.getText(), vista.txtContactoProveedor.getText(), vista.txtEmailProveedor.getText(),
+                vista.txtTelefonoProveedor.getText(), vista.txtDireccionProveedor.getText()
+        );
+        resetearProveedor();
+        Util.mensajeInfo("Cambios guardados con éxito", "Editar Proveedor");
+    }
+
+    private void guardarVentaProducto() {
+        if (!validarCamposVentaProducto()) {
+            return;
+        }
+        modelo.modificarVentaProducto(
+                Integer.parseInt(String.valueOf(vistaVenta.dtmVentaProducto.getValueAt(filaEditando, 0))),
+                Integer.parseInt(vistaVenta.txtCantidad.getText()), idVenta,
+                Integer.parseInt(String.valueOf(vistaVenta.comboProducto.getSelectedItem()).split(" ")[0])
+        );
+        resetearVentaProducto();
+        refrescarVenta();
+        modelo.generarVenta(idVenta);
+        Util.mensajeInfo("Cambios guardados con éxito", "Editar Venta - Producto");
+    }
+    // GUARDAR FIN -----------------------------------------------------------------------------------------
 
 
     // ELIMINAR -----------------------------------------------------------------------------------------
@@ -861,6 +1064,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         if (resp == JOptionPane.OK_OPTION) {
             modelo.eliminarProducto((Integer) vista.tableProducto.getValueAt(fila, 0));
             refrescarProducto();
+            if (editando) {
+                resetearProducto();
+            }
             Util.mensajeInfo("Se ha eliminado \"" + producto + "\"", "Producto Eliminado");
         }
     }
@@ -880,6 +1086,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         if (resp == JOptionPane.OK_OPTION) {
             modelo.eliminarEmpleado((Integer) vista.tableEmpleado.getValueAt(fila, 0));
             refrescarEmpleado();
+            if (editando) {
+                resetearEmpleado();
+            }
             Util.mensajeInfo("Se ha eliminado \"" + empleado + "\"", "Empleado Eliminado");
         }
     }
@@ -899,6 +1108,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         if (resp == JOptionPane.OK_OPTION) {
             modelo.eliminarrCliente((Integer) vista.tableCliente.getValueAt(fila, 0));
             refrescarCliente();
+            if (editando) {
+                resetearCliente();
+            }
             Util.mensajeInfo("Se ha eliminado \"" + cliente + "\"", "Cliente Eliminado");
         }
     }
@@ -916,6 +1128,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         if (resp == JOptionPane.OK_OPTION) {
             modelo.eliminarProveedor((Integer) vista.tableProveedor.getValueAt(fila, 0));
             refrescarProveedor();
+            if (editando) {
+                resetearProveedor();
+            }
             Util.mensajeInfo("Se ha eliminado \"" + proveedor + "\"", "Proveedor Eliminado");
         }
     }
@@ -948,11 +1163,14 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         if (resp == JOptionPane.OK_OPTION) {
             modelo.eliminarVentaProducto(linea);
             refrescarVentaProducto(idVenta);
+            if (editando) {
+                resetearVentaProducto();
+            }
             Util.mensajeInfo("Se ha eliminado línea nº \"" + linea + "\"", "Línea Eliminada");
         }
-        modelo.generarVenta(idVenta);
         refrescarVentaProducto(idVenta);
         refrescarVenta();
+        modelo.generarVenta(idVenta);
     }
     // ELIMINAR FIN -----------------------------------------------------------------------------------------
 
@@ -1057,9 +1275,113 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         if (resp1 == JOptionPane.OK_OPTION) {
             modelo.limpiarBBDDVentaProducto(idVenta);
             refrescarVentaProducto(idVenta);
+            modelo.generarVenta(idVenta);
         }
     }
     // BORRAR BBDD FIN -----------------------------------------------------------------------------------------
+
+
+    // BUSCAR -----------------------------------------------------------------------------------------
+    private void buscarProducto() {
+        try {
+            if (!filtroProducto) {
+                vista.tableProducto.setModel(construirTableModeloProducto(modelo.buscarProducto(vista.txtBusquedaProducto.getText())));
+                vista.btnBuscarProducto.setText("Todos");
+                filtroProducto = true;
+            } else {
+                vista.tableProducto.setModel(construirTableModeloProducto(modelo.consultarProducto()));
+                vista.btnBuscarProducto.setText("Buscar");
+                vista.txtBusquedaProducto.setText(null);
+                filtroProducto = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void buscarEmpleado() {
+        try {
+            if (!filtroEmpleado) {
+                vista.tableEmpleado.setModel(construirTableModeloEmpleado(modelo.buscarEmpleado(vista.txtBuscarEmpleado.getText())));
+                vista.btnBuscarEmpleado.setText("Todos");
+                filtroEmpleado = true;
+            } else {
+                vista.tableEmpleado.setModel(construirTableModeloEmpleado(modelo.consultarEmpleado()));
+                vista.btnBuscarEmpleado.setText("Buscar");
+                vista.txtBuscarEmpleado.setText(null);
+                filtroEmpleado = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void buscarCliente() {
+        try {
+            if (!filtroCliente) {
+                vista.tableCliente.setModel(construirTableModeloCliente(modelo.buscarCliente(vista.txtBuscarCliente.getText())));
+                vista.btnBuscarCliente.setText("Todos");
+                filtroCliente = true;
+            } else {
+                vista.tableCliente.setModel(construirTableModeloCliente(modelo.consultarCliente()));
+                vista.btnBuscarCliente.setText("Buscar");
+                vista.txtBuscarCliente.setText(null);
+                filtroCliente = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void buscarProveedor() {
+        try {
+            if (!filtroProveedor) {
+                vista.tableProveedor.setModel(construirTableModeloProveedor(modelo.buscarProveedor(vista.txtBuscarProveedor.getText())));
+                vista.btnBuscarProveedor.setText("Todos");
+                filtroProveedor = true;
+            } else {
+                vista.tableProveedor.setModel(construirTableModeloProveedor(modelo.consultarProveedor()));
+                vista.btnBuscarProveedor.setText("Buscar");
+                vista.txtBuscarProveedor.setText(null);
+                filtroProveedor = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void buscarVentaEmpleado() {
+        if (hayCamposVaciosVenta()) {
+            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
+            return;
+        }
+        modelo.crearVenta(
+                Integer.parseInt(String.valueOf(vista.comboCliente.getSelectedItem()).split(" ")[0]),
+                Integer.parseInt(String.valueOf(vista.comboEmpleado.getSelectedItem()).split(" ")[0])
+        );
+        try {
+            idVenta = modelo.idUltimaVenta();
+            resetearVentaProducto();
+            vistaVenta.setVisible(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void buscarVentaCliente() {
+        if (!validarCamposVentaProducto()) {
+            return;
+        }
+        modelo.insertarVentaProducto(
+                Integer.parseInt(vistaVenta.txtCantidad.getText()), idVenta,
+                Integer.parseInt(String.valueOf(vistaVenta.comboProducto.getSelectedItem()).split(" ")[0])
+        );
+        resetearVentaProducto();
+        refrescarVenta();
+        modelo.generarVenta(idVenta);
+        Util.mensajeInfo("Se ha añadido un nuevo producto", "Nuevo Producto");
+    }
+    // BUSCAR FIN -----------------------------------------------------------------------------------------
 
 
     // METODOS VARIOS ---------------------------------------------------------------------------------------
@@ -1085,6 +1407,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
     // LISTENERS --------------------------------------------------------------------------------------------
     private void addWindowListeners(WindowListener listener) {
         vista.addWindowListener(listener);
+        vistaVenta.addWindowListener(listener);
     }
 
     private void addActionListeners(ActionListener listener) {
@@ -1183,6 +1506,20 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnCancelarProveedor.setActionCommand("cancelarProveedor");
         vistaVenta.btnCancelar.addActionListener(listener);
         vistaVenta.btnCancelar.setActionCommand("cancelarVentaProducto");
+
+        // Buscar
+        vista.btnBuscarProducto.addActionListener(listener);
+        vista.btnBuscarProducto.setActionCommand("buscarProducto");
+        vista.btnBuscarEmpleado.addActionListener(listener);
+        vista.btnBuscarEmpleado.setActionCommand("buscarEmpleado");
+        vista.btnBuscarCliente.addActionListener(listener);
+        vista.btnBuscarCliente.setActionCommand("buscarCliente");
+        vista.btnBuscarProveedor.addActionListener(listener);
+        vista.btnBuscarProveedor.setActionCommand("buscarProveedor");
+        vista.btnBuscarVentaEmpleado.addActionListener(listener);
+        vista.btnBuscarVentaEmpleado.setActionCommand("buscarVentaEmpleado");
+        vista.btnBuscarVentaCliente.addActionListener(listener);
+        vista.btnBuscarVentaCliente.setActionCommand("buscarVentaCliente");
 
         // Refrescar
         vista.btnRefrescarVenta.addActionListener(listener);
@@ -1338,14 +1675,19 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
             // GUARDAR
             case "guardarProducto":
+                guardarProducto();
                 break;
             case "guardarEmpleado":
+                guardarEmpleado();
                 break;
             case "guardarCliente":
+                guardarCliente();
                 break;
             case "guardarProveedor":
+                guardarProveedor();
                 break;
             case "guardarVentaProducto":
+                guardarVentaProducto();
                 break;
 
             // CANCELAR
@@ -1365,13 +1707,26 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                 resetearVentaProducto();
                 break;
 
-            case "refrescarVenta":
-                resetearVenta();
+            // BUSCAR
+            case "buscarProducto":
+                buscarProducto();
+                break;
+            case "buscarEmpleado":
+                buscarEmpleado();
+                break;
+            case "buscarCliente":
+                buscarCliente();
+                break;
+            case "buscarProveedor":
+                buscarProveedor();
+                break;
+            case "buscarVentaEmpleado":
+                break;
+            case "buscarVentaCliente":
                 break;
 
-
-            case "Guardar":
-                //guardarCambiosProducto();
+            case "refrescarVenta":
+                resetearVenta();
                 break;
         }
     }
@@ -1388,9 +1743,21 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
 
     @Override
     public void windowClosing(WindowEvent e) {
-        int resp = Util.mensajeConfirmación("¿Desea cerrar la vetana?", "Salir");
-        if (resp == JOptionPane.OK_OPTION || resp == JOptionPane.YES_OPTION) {
-            System.exit(0);
+        Window ventana = e.getWindow();
+
+        if (ventana == vista) {
+            int resp = Util.mensajeConfirmación("¿Desea cerrar la vetana?", "Salir");
+            if (resp == JOptionPane.OK_OPTION || resp == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        }
+
+        if (ventana == vistaVenta) {
+            refrescarVentaProducto(idVenta);
+            modelo.generarVenta(idVenta);
+            resetearVenta();
+            vistaVenta.dispose();
+            Util.mensajeInfo("Se ha añadido una venta", "Venta - Producto");
         }
     }
 

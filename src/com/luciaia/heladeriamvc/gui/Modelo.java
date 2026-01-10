@@ -325,14 +325,14 @@ public class Modelo {
         }
     }
 
-    void modificarHelado(int id, int precio, LocalDate fechaApertura, LocalDate fechaCaducidad, int idProveedor, String sabor, boolean azucar, float litros) {
+    void modificarHelado(int id, float precio, LocalDate fechaApertura, LocalDate fechaCaducidad, int idProveedor, String sabor, boolean azucar, float litros) {
         String sentenciaSql = "call pModificarHelado(?,?,?,?,?,?,?,?)";
         CallableStatement sentencia = null;
 
         try {
             sentencia = conexion.prepareCall(sentenciaSql);
             sentencia.setInt(1, id);
-            sentencia.setInt(2, precio);
+            sentencia.setFloat(2, precio);
             sentencia.setDate(3, Date.valueOf(fechaApertura));
             sentencia.setDate(4, Date.valueOf(fechaCaducidad));
             sentencia.setInt(5, idProveedor);
@@ -352,14 +352,14 @@ public class Modelo {
         }
     }
 
-    void modificarGofre(int id, int precio, LocalDate fechaApertura, LocalDate fechaCaducidad, int idProveedor, String topping, boolean gluten, String tipoMasa) {
+    void modificarGofre(int id, float precio, LocalDate fechaApertura, LocalDate fechaCaducidad, int idProveedor, String topping, boolean gluten, String tipoMasa) {
         String sentenciaSql = "call pCrearGofre(?,?,?,?,?,?,?,?)";
         CallableStatement sentencia = null;
 
         try {
             sentencia = conexion.prepareCall(sentenciaSql);
             sentencia.setInt(1, id);
-            sentencia.setInt(2, precio);
+            sentencia.setFloat(2, precio);
             sentencia.setDate(3, Date.valueOf(fechaApertura));
             sentencia.setDate(4, Date.valueOf(fechaCaducidad));
             sentencia.setInt(5, idProveedor);
@@ -410,6 +410,7 @@ public class Modelo {
         try {
             call = conexion.prepareCall(sentenciaSql);
             call.setInt(1, idVenta);
+            call.execute();
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         } finally {
@@ -705,11 +706,11 @@ public class Modelo {
                 "direccion as 'Dirección' " +
                 "FROM proveedor " +
                 "WHERE activo " +
-                "AND nombre like '%?%'";
+                "AND nombre like ?";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         sentencia = conexion.prepareStatement(sentenciaSql);
-        sentencia.setString(1, nombre);
+        sentencia.setString(1, "%" + nombre + "%");
         resultado = sentencia.executeQuery();
         return resultado;
     }
@@ -722,11 +723,11 @@ public class Modelo {
                 "telefono as 'Teléfono' " +
                 "FROM empleado " +
                 "WHERE activo " +
-                "AND email like '%?%'";
+                "AND email like ?";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         sentencia = conexion.prepareStatement(sentenciaSql);
-        sentencia.setString(1, emailEmpleado);
+        sentencia.setString(1, "%" + emailEmpleado +"%");
         resultado = sentencia.executeQuery();
         return resultado;
     }
@@ -739,16 +740,16 @@ public class Modelo {
                 "telefono as 'Teléfono' " +
                 "FROM cliente " +
                 "WHERE activo " +
-                "AND email like '%?%'";
+                "AND email like ?";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         sentencia = conexion.prepareStatement(sentenciaSql);
-        sentencia.setString(1, emailCliente);
+        sentencia.setString(1, "%" + emailCliente + "%");
         resultado = sentencia.executeQuery();
         return resultado;
     }
 
-    ResultSet consultarProducto(String nombreProducto) throws SQLException {
+    ResultSet buscarProducto(String nombreProducto) throws SQLException {
         String sentenciaSql = "SELECT pd.id as 'ID', " +
                 "pd.nombre as 'Nombre', " +
                 "pd.precio as 'Precio', " +
@@ -759,11 +760,11 @@ public class Modelo {
                 "FROM producto pd " +
                 "JOIN proveedor pv on pd.id_proveedor = pv.id" +
                 "WHERE pd.activo " +
-                "AND pd.nombre like '%?%'";
+                "AND pd.nombre like ?";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         sentencia = conexion.prepareStatement(sentenciaSql);
-        sentencia.setString(1, nombreProducto);
+        sentencia.setString(1, "%" + nombreProducto + "%");
         resultado = sentencia.executeQuery();
         return resultado;
     }
