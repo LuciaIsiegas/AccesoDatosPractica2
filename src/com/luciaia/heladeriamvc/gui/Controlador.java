@@ -348,6 +348,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoProducto.setEnabled(true);
         vista.btnBorrarBBDDProducto.setEnabled(true);
         vista.btnLimpiarProducto.setEnabled(true);
+        vista.btnBuscarProducto.setEnabled(true);
         vista.txtBusquedaProducto.setText(null);
 
         limpiarCamposProducto();
@@ -366,6 +367,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoEmpleado.setEnabled(true);
         vista.btnLimpiarEmpleado.setEnabled(true);
         vista.btnBorrarBBDDEmpleado.setEnabled(true);
+        vista.btnBuscarEmpleado.setEnabled(true);
         vista.txtBuscarEmpleado.setText(null);
 
         limpiarCamposEmpleado();
@@ -382,6 +384,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoCliente.setEnabled(true);
         vista.btnLimpiarCliente.setEnabled(true);
         vista.btnBorrarBBDDCliente.setEnabled(true);
+        vista.btnBuscarCliente.setEnabled(true);
         vista.txtBuscarCliente.setText(null);
 
         limpiarCamposCliente();
@@ -398,6 +401,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoProveedor.setEnabled(true);
         vista.btnLimpiarProveedor.setEnabled(true);
         vista.btnBorrarBBDDProveedor.setEnabled(true);
+        vista.btnBuscarProveedor.setEnabled(true);
         vista.txtBuscarProveedor.setText(null);
 
         limpiarCamposProveedor();
@@ -845,6 +849,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoProducto.setEnabled(false);
         vista.btnBorrarBBDDProducto.setEnabled(false);
         vista.btnLimpiarProducto.setEnabled(false);
+        vista.btnBuscarProducto.setEnabled(false);
         editando = true;
     }
 
@@ -869,6 +874,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoEmpleado.setEnabled(false);
         vista.btnBorrarBBDDEmpleado.setEnabled(false);
         vista.btnLimpiarEmpleado.setEnabled(false);
+        vista.btnBuscarEmpleado.setEnabled(false);
         editando = true;
     }
 
@@ -893,6 +899,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoCliente.setEnabled(false);
         vista.btnBorrarBBDDCliente.setEnabled(false);
         vista.btnLimpiarCliente.setEnabled(false);
+        vista.btnBuscarCliente.setEnabled(false);
         editando = true;
     }
 
@@ -918,6 +925,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.btnNuevoProveedor.setEnabled(false);
         vista.btnBorrarBBDDProveedor.setEnabled(false);
         vista.btnLimpiarProveedor.setEnabled(false);
+        vista.btnBuscarProveedor.setEnabled(false);
         editando = true;
     }
 
