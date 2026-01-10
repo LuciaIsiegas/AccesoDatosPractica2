@@ -114,7 +114,6 @@ public class Vista extends JFrame {
 
     //menubar
     JMenuItem itemOpciones;
-    JMenuItem itemCrear;
     JMenuItem itemDesconectar;
     JMenuItem itemSalir;
 
@@ -167,21 +166,17 @@ public class Vista extends JFrame {
         JMenu menu = new JMenu("Archivo");
         itemOpciones = new JMenuItem("Opciones");
         itemOpciones.setActionCommand("Opciones");
-        itemCrear = new JMenuItem("Crear BBDD");
-        itemCrear.setActionCommand("Crear");
         itemDesconectar = new JMenuItem("Desconectar");
         itemDesconectar.setActionCommand("Desconectar");
         itemSalir = new JMenuItem("Salir");
         itemSalir.setActionCommand("Salir");
 
         mbBar.setBackground(new Color(255, 203, 133));
-        itemCrear.setBackground(new Color(255, 203, 133));
         itemOpciones.setBackground(new Color(255, 203, 133));
         itemDesconectar.setBackground(new Color(255, 203, 133));
         itemSalir.setBackground(new Color(255, 203, 133));
 
         menu.add(itemOpciones);
-        menu.add(itemCrear);
         menu.add(itemDesconectar);
         menu.add(itemSalir);
         mbBar.add(menu);

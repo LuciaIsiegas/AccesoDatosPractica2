@@ -26,7 +26,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
     boolean filtroProveedor;
     boolean filtroVentaEmpleado;
     boolean filtroVentaCliente;
-    boolean refrescar;
+    boolean conectado;
     private int idVenta;
 
     public Controlador(Modelo modelo, Vista vista) {
@@ -44,6 +44,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         this.editando = false;
 
         modelo.conectar();
+        conectado = true;
         setOptions();
         addActionListeners(this);
         //addItemListeners(this);
@@ -428,19 +429,20 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         vista.radioGofre.setSelected(false);
         vista.txtNombreProducto.setText(null);
         vista.txtPrecioProducto.setText(null);
+        vista.comboProveedor.setSelectedIndex(-1);
         vista.dateApertura.setText(null);
         vista.dateCaducidad.setText(null);
     }
 
     private void limpiarCamposHelado() {
-        vista.panelHelado.comboSabor.setSelectedIndex(0);
+        vista.panelHelado.comboSabor.setSelectedIndex(-1);
         vista.panelHelado.conAzucarRadioButton.setSelected(true);
         vista.panelHelado.litrosHeladoTxt.setText(null);
     }
 
     private void limpiarCamposGofre() {
-        vista.panelGofre.comboToppingGofre.setSelectedIndex(0);
-        vista.panelGofre.tipoMasaComboBox.setSelectedIndex(0);
+        vista.panelGofre.comboToppingGofre.setSelectedIndex(-1);
+        vista.panelGofre.tipoMasaComboBox.setSelectedIndex(-1);
         vista.panelGofre.conGlutenRadioButton.setSelected(true);
     }
 
@@ -488,7 +490,6 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         refrescarProducto();
         refrescarVenta();
         refrescarVentaProducto(idVenta);
-        refrescar = false;
     }
 
     private void refrescarProveedor() {
@@ -558,6 +559,8 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
     private void refrescarVenta() {
         try {
             vista.tableVenta.setModel(construirTableModeloVenta(modelo.consultarVenta()));
+            vista.btnBuscarVentaEmpleado.setText("Buscar");
+            vista.btnBuscarVentaCliente.setText("Buscar");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -581,7 +584,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         Vector<String> columnNames = new Vector<>();
         int columnCount = metaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
+            columnNames.add(metaData.getColumnLabel(column));
         }
 
         // data of the table
@@ -598,7 +601,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         Vector<String> columnNames = new Vector<>();
         int columnCount = metaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
+            columnNames.add(metaData.getColumnLabel(column));
         }
 
         // data of the table
@@ -615,7 +618,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         Vector<String> columnNames = new Vector<>();
         int columnCount = metaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
+            columnNames.add(metaData.getColumnLabel(column));
         }
 
         // data of the table
@@ -632,7 +635,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         Vector<String> columnNames = new Vector<>();
         int columnCount = metaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
+            columnNames.add(metaData.getColumnLabel(column));
         }
 
         // data of the table
@@ -649,7 +652,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         Vector<String> columnNames = new Vector<>();
         int columnCount = metaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
+            columnNames.add(metaData.getColumnLabel(column));
         }
 
         // data of the table
@@ -666,7 +669,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         Vector<String> columnNames = new Vector<>();
         int columnCount = metaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
+            columnNames.add(metaData.getColumnLabel(column));
         }
 
         // data of the table
@@ -1351,35 +1354,39 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
     }
 
     private void buscarVentaEmpleado() {
-        if (hayCamposVaciosVenta()) {
-            Util.mensajeError("Por favor rellene los campos obligatorios", "Campos Incorrectos");
-            return;
-        }
-        modelo.crearVenta(
-                Integer.parseInt(String.valueOf(vista.comboCliente.getSelectedItem()).split(" ")[0]),
-                Integer.parseInt(String.valueOf(vista.comboEmpleado.getSelectedItem()).split(" ")[0])
-        );
         try {
-            idVenta = modelo.idUltimaVenta();
-            resetearVentaProducto();
-            vistaVenta.setVisible(true);
+            if (!filtroVentaEmpleado && vista.comboEmpleado.getSelectedIndex() > -1) {
+                vista.tableVenta.setModel(construirTableModeloVenta(modelo.buscarVentaEmpleado(Integer.parseInt(String.valueOf(vista.comboEmpleado.getSelectedItem()).split(" ")[0]))));
+                vista.btnBuscarVentaEmpleado.setText("Todos");
+                filtroVentaEmpleado = true;
+                vista.btnBuscarVentaCliente.setText("Buscar");
+                filtroVentaCliente = false;
+            } else {
+                vista.tableVenta.setModel(construirTableModeloVenta(modelo.consultarVenta()));
+                vista.btnBuscarVentaEmpleado.setText("Buscar");
+                filtroVentaEmpleado = false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void buscarVentaCliente() {
-        if (!validarCamposVentaProducto()) {
-            return;
+        try {
+            if (!filtroVentaCliente && vista.comboCliente.getSelectedIndex() > -1) {
+                vista.tableVenta.setModel(construirTableModeloVenta(modelo.buscarVentaCliente(Integer.parseInt(String.valueOf(vista.comboCliente.getSelectedItem()).split(" ")[0]))));
+                vista.btnBuscarVentaCliente.setText("Todos");
+                filtroVentaCliente = true;
+                vista.btnBuscarVentaEmpleado.setText("Buscar");
+                filtroVentaEmpleado = false;
+            } else {
+                vista.tableVenta.setModel(construirTableModeloVenta(modelo.consultarVenta()));
+                vista.btnBuscarVentaCliente.setText("Buscar");
+                filtroVentaCliente = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        modelo.insertarVentaProducto(
-                Integer.parseInt(vistaVenta.txtCantidad.getText()), idVenta,
-                Integer.parseInt(String.valueOf(vistaVenta.comboProducto.getSelectedItem()).split(" ")[0])
-        );
-        resetearVentaProducto();
-        refrescarVenta();
-        modelo.generarVenta(idVenta);
-        Util.mensajeInfo("Se ha añadido un nuevo producto", "Nuevo Producto");
     }
     // BUSCAR FIN -----------------------------------------------------------------------------------------
 
@@ -1545,7 +1552,15 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                 vista.adminPasswordDialog.setVisible(true);
                 break;
             case "Desconectar":
-                modelo.desconectar();
+                if (conectado) {
+                    modelo.desconectar();
+                    vista.itemDesconectar.setText("Conectar");
+                    conectado = false;
+                } else {
+                    modelo.conectar();
+                    vista.itemDesconectar.setText("Desconectar");
+                    conectado = true;
+                }
                 break;
             case "Salir":
                 System.exit(0);
@@ -1721,8 +1736,10 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                 buscarProveedor();
                 break;
             case "buscarVentaEmpleado":
+                buscarVentaEmpleado();
                 break;
             case "buscarVentaCliente":
+                buscarVentaCliente();
                 break;
 
             case "refrescarVenta":

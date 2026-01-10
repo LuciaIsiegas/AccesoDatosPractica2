@@ -727,7 +727,7 @@ public class Modelo {
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         sentencia = conexion.prepareStatement(sentenciaSql);
-        sentencia.setString(1, "%" + emailEmpleado +"%");
+        sentencia.setString(1, "%" + emailEmpleado + "%");
         resultado = sentencia.executeQuery();
         return resultado;
     }
@@ -755,10 +755,10 @@ public class Modelo {
                 "pd.precio as 'Precio', " +
                 "pd.tipo as 'Tipo', " +
                 "pd.fecha_apertura as 'Fecha Apertura', " +
-                "pd.fecha_caducidad as 'Fecha Caducidad' " +
+                "pd.fecha_caducidad as 'Fecha Caducidad', " +
                 "pv.nombre as 'Proveedor' " +
                 "FROM producto pd " +
-                "JOIN proveedor pv on pd.id_proveedor = pv.id" +
+                "JOIN proveedor pv on pd.id_proveedor = pv.id " +
                 "WHERE pd.activo " +
                 "AND pd.nombre like ?";
         PreparedStatement sentencia = null;
@@ -771,12 +771,13 @@ public class Modelo {
 
     ResultSet buscarVentaEmpleado(int idEmpleado) throws SQLException {
         String sentenciaSql = "SELECT v.id as 'ID', " +
-                "v.id_empleado as 'Empleado', " +
-                "c.email as 'Cliente', " +
+                "concat(e.id, ' - ', e.email) as 'Empleado', " +
+                "concat(c.id, ' - ', c.email) as 'Cliente', " +
                 "v.cantidad as 'Cantidad', " +
                 "v.precio_total as 'Precio Total' " +
                 "FROM venta v " +
                 "JOIN cliente c on c.id = v.id_cliente " +
+                "JOIN empleado e on e.id = v.id_empleado " +
                 "WHERE v.id_empleado = ?";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
@@ -786,14 +787,15 @@ public class Modelo {
         return resultado;
     }
 
-    ResultSet buscarVentaProducto(int idCliente) throws SQLException {
+    ResultSet buscarVentaCliente(int idCliente) throws SQLException {
         String sentenciaSql = "SELECT v.id as 'ID', " +
-                "v.id_empleado as 'Empleado', " +
-                "c.email as 'Cliente', " +
+                "concat(e.id, ' - ', e.email) as 'Empleado', " +
+                "concat(c.id, ' - ', c.email) as 'Cliente', " +
                 "v.cantidad as 'Cantidad', " +
                 "v.precio_total as 'Precio Total' " +
                 "FROM venta v " +
                 "JOIN cliente c on c.id = v.id_cliente " +
+                "JOIN empleado e on e.id = v.id_empleado " +
                 "WHERE v.id_cliente = ?";
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
@@ -931,7 +933,7 @@ public class Modelo {
 
     // EXISTE ------------------------------------------------------------------------------------------
     public boolean proveedorExiste(String nombreProveedor) {
-        String proveedorConsult = "SELECT fExisteProveedor(?)";
+        String proveedorConsult = "SELECT EXISTS(SELECT 1 FROM proveedor WHERE nombre = ? AND activo)";
         PreparedStatement function;
         boolean proveedorExists = false;
         try {
@@ -948,7 +950,8 @@ public class Modelo {
     }
 
     public boolean empleadoExiste(String emailEmpleado) {
-        String empleadoConsult = "SELECT fExisteEmpleado(?)";
+        String empleadoConsult = "SELECT EXISTS(select 1 from empleado where email = ? and activo)";
+        //String empleadoConsult = "SELECT fExisteEmpleado(?)";
         PreparedStatement function;
         boolean empleadoExists = false;
         try {
@@ -965,7 +968,7 @@ public class Modelo {
     }
 
     public boolean clienteExiste(String emailCliente) {
-        String clienteConsult = "SELECT fExisteCliente(?)";
+        String clienteConsult = "SELECT EXISTS(select 1 from cliente where email = ? and activo)";
         PreparedStatement function;
         boolean clienteExists = false;
         try {
@@ -982,7 +985,7 @@ public class Modelo {
     }
 
     public boolean productoExiste(String nombreProducto) {
-        String productoConsult = "SELECT fExisteProducto(?)";
+        String productoConsult = "SELECT EXISTS(select 1 from producto where nombre = ? and activo)";
         PreparedStatement function;
         boolean productoExists = false;
         try {
