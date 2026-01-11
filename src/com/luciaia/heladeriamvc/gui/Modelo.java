@@ -1022,10 +1022,20 @@ public class Modelo {
     private void getPropValues() {
         InputStream inputStream = null;
         try {
-            Properties prop = new Properties();
-            String propFileName = "config.properties";
+            InputStream is = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream("config.properties");
 
-            inputStream = new FileInputStream(propFileName);
+            if (is == null) {
+                throw new RuntimeException("No se encuentra el config.properties en resources");
+            }
+
+            /*
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String propFileName = "config.properties";
+             */
+            Properties prop = new Properties();
+            inputStream = is;
 
             prop.load(inputStream);
             ip = prop.getProperty("ip");
