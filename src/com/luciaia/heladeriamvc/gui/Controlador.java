@@ -799,14 +799,14 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
         }
         int idProducto = (int) vista.tableProducto.getValueAt(filaEditando, 0);
 
-        vista.txtNombreProducto.setText((String) vista.tableProducto.getValueAt(filaEditando, 1));
+        vista.txtNombreProducto.setText(String.valueOf( vista.tableProducto.getValueAt(filaEditando, 1)));
         vista.txtPrecioProducto.setText(String.valueOf(vista.tableProducto.getValueAt(filaEditando, 2)));
         vista.dateApertura.setDate(LocalDate.parse(String.valueOf(vista.tableProducto.getValueAt(filaEditando, 4))));
         vista.dateCaducidad.setDate(LocalDate.parse(String.valueOf(vista.tableProducto.getValueAt(filaEditando, 5))));
         vista.comboProveedor.setSelectedItem(vista.tableProducto.getValueAt(filaEditando, 6));
 
         try {
-            if (((String) vista.tableProducto.getValueAt(filaEditando, 3)).equals("helado")) {
+            if ((String.valueOf( vista.tableProducto.getValueAt(filaEditando, 3)).equals("helado"))) {
                 vista.radioHelado.doClick();
 
                 ResultSet helado = modelo.consultarHelado(idProducto);
@@ -820,7 +820,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                     vista.panelHelado.litrosHeladoTxt.setText(String.valueOf(helado.getFloat(4)));
                 }
 
-            } else if (((String) vista.tableProducto.getValueAt(filaEditando, 3)).equals("gofre")) {
+            } else if ((String.valueOf( vista.tableProducto.getValueAt(filaEditando, 3)).equals("gofre"))) {
                 vista.radioGofre.doClick();
 
                 ResultSet gofre = modelo.consultarGofre(idProducto);
@@ -860,10 +860,10 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        vista.txtNombreEmpeado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 1));
-        vista.txtApellidosEmpleado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 2));
-        vista.txtEmailEmpleado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 3));
-        vista.txtTelefonoEmpleado.setText((String) vista.tableEmpleado.getValueAt(filaEditando, 4));
+        vista.txtNombreEmpeado.setText(String.valueOf( vista.tableEmpleado.getValueAt(filaEditando, 1)));
+        vista.txtApellidosEmpleado.setText(String.valueOf( vista.tableEmpleado.getValueAt(filaEditando, 2)));
+        vista.txtEmailEmpleado.setText(String.valueOf( vista.tableEmpleado.getValueAt(filaEditando, 3)));
+        vista.txtTelefonoEmpleado.setText(String.valueOf( vista.tableEmpleado.getValueAt(filaEditando, 4)));
 
         vista.tableEmpleado.setEnabled(false);
         vista.txtEmailEmpleado.setEditable(false);
@@ -885,10 +885,10 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        vista.txtNombreCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 1));
-        vista.txtApellidosCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 2));
-        vista.txtEmailCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 3));
-        vista.txtTelefonoCliente.setText((String) vista.tableCliente.getValueAt(filaEditando, 4));
+        vista.txtNombreCliente.setText(String.valueOf( vista.tableCliente.getValueAt(filaEditando, 1)));
+        vista.txtApellidosCliente.setText(String.valueOf( vista.tableCliente.getValueAt(filaEditando, 2)));
+        vista.txtEmailCliente.setText(String.valueOf( vista.tableCliente.getValueAt(filaEditando, 3)));
+        vista.txtTelefonoCliente.setText(String.valueOf( vista.tableCliente.getValueAt(filaEditando, 4)));
 
         vista.tableCliente.setEnabled(false);
         vista.txtEmailCliente.setEditable(false);
@@ -910,11 +910,11 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        vista.txtNombreProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 1));
-        vista.txtContactoProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 2));
-        vista.txtEmailProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 3));
-        vista.txtTelefonoProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 4));
-        vista.txtDireccionProveedor.setText((String) vista.tableProveedor.getValueAt(filaEditando, 5));
+        vista.txtNombreProveedor.setText(String.valueOf( vista.tableProveedor.getValueAt(filaEditando, 1)));
+        vista.txtContactoProveedor.setText(String.valueOf( vista.tableProveedor.getValueAt(filaEditando, 2)));
+        vista.txtEmailProveedor.setText(String.valueOf( vista.tableProveedor.getValueAt(filaEditando, 3)));
+        vista.txtTelefonoProveedor.setText(String.valueOf( vista.tableProveedor.getValueAt(filaEditando, 4)));
+        vista.txtDireccionProveedor.setText(String.valueOf( vista.tableProveedor.getValueAt(filaEditando, 5)));
 
         vista.tableProveedor.setEnabled(false);
         vista.txtNombreProveedor.setEditable(false);
@@ -1069,7 +1069,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        String producto = (String) vista.tableProducto.getValueAt(fila, 1);
+        String producto = String.valueOf(vista.tableProducto.getValueAt(fila, 1));
 
         int resp = Util.mensajeConfirmación("¿Desea eliminar \"" + producto + "\"?", "Eliminar producto");
         if (resp == JOptionPane.OK_OPTION) {
@@ -1089,9 +1089,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        String empleado = ((String) vista.tableEmpleado.getValueAt(fila, 0)) + " - "
-                + ((String) vista.tableEmpleado.getValueAt(fila, 1)) + " "
-                + ((String) vista.tableEmpleado.getValueAt(fila, 2));
+        String empleado = (String.valueOf( vista.tableEmpleado.getValueAt(fila, 0))) + " - "
+                + (String.valueOf( vista.tableEmpleado.getValueAt(fila, 1))) + " "
+                + (String.valueOf( vista.tableEmpleado.getValueAt(fila, 2)));
 
         int resp = Util.mensajeConfirmación("¿Desea eliminar \"" + empleado + "\"?", "Eliminar empleado");
         if (resp == JOptionPane.OK_OPTION) {
@@ -1111,9 +1111,9 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        String cliente = ((String) vista.tableCliente.getValueAt(fila, 0)) + " - "
-                + ((String) vista.tableCliente.getValueAt(fila, 1)) + " "
-                + ((String) vista.tableCliente.getValueAt(fila, 2));
+        String cliente = (String.valueOf( vista.tableCliente.getValueAt(fila, 0))) + " - "
+                + (String.valueOf( vista.tableCliente.getValueAt(fila, 1))) + " "
+                + (String.valueOf( vista.tableCliente.getValueAt(fila, 2)));
 
         int resp = Util.mensajeConfirmación("¿Desea eliminar \"" + cliente + "\"?", "Eliminar cliente");
         if (resp == JOptionPane.OK_OPTION) {
@@ -1133,7 +1133,7 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
             return;
         }
 
-        String proveedor = (String) vista.tableProveedor.getValueAt(fila, 1);
+        String proveedor = String.valueOf( vista.tableProveedor.getValueAt(fila, 1));
 
         int resp = Util.mensajeConfirmación("¿Desea eliminar \"" + proveedor + "\"?", "Eliminar proveedor");
         if (resp == JOptionPane.OK_OPTION) {

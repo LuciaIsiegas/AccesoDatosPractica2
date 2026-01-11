@@ -32,7 +32,11 @@ public class VistaVenta extends JDialog {
     public void initDialog() {
         setContentPane(panel1);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setIconImage(new ImageIcon("Icono.png").getImage());
+        Image icono = Toolkit.getDefaultToolkit().getImage(
+                getClass().getClassLoader().getResource("Icono.png")
+        );
+
+        setIconImage(icono);
         botonesVisibles();
 
         //cargo table models

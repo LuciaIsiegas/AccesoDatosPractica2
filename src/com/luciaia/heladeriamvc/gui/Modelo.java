@@ -58,7 +58,23 @@ public class Modelo {
     }
 
     private String leerFichero() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("scriptBBDD-Heladeria.sql"));
+        // LIA
+        System.out.println(
+                Thread.currentThread()
+                        .getContextClassLoader()
+                        .getResource("scriptBBDD-Heladeria.sql")
+        );
+
+        // Al utilizar Jar ya no existe como archivo físico, NO se puede utilizar FileReader
+        InputStream is = Thread.currentThread()
+                .getContextClassLoader()
+                .getResourceAsStream("scriptBBDD-Heladeria.sql");
+        if (is == null) {
+            throw new RuntimeException("No se encuentra el script SQL en resources");
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        //BufferedReader reader = new BufferedReader(new FileReader("scriptBBDD-Heladeria.sql"));
         String linea;
         StringBuilder stringBuilder = new StringBuilder();
         while ((linea = reader.readLine()) != null) {

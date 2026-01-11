@@ -132,7 +132,11 @@ public class Vista extends JFrame {
     public void initFrame() {
         setContentPane(panel1);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setIconImage(new ImageIcon("Icono.png").getImage());
+        Image icono = Toolkit.getDefaultToolkit().getImage(
+                getClass().getClassLoader().getResource("Icono.png")
+        );
+
+        setIconImage(icono);
 
         radioHelado.setSelected(true);
         crearPanelCard();
