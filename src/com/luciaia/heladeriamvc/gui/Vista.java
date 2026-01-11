@@ -285,4 +285,27 @@ public class Vista extends JFrame {
         panelGofre.conGlutenRadioButton.setSelected(true);
         panelCard.add(panelGofre.panel1, "Gofre");
     }
+
+    public void bloquearVista() {
+        setEnabledRecursivo(panel1, false);
+    }
+
+    public void desbloquearVista() {
+        setEnabledRecursivo(panel1, true);
+    }
+
+    private void setEnabledRecursivo(Container container, boolean enabled) {
+        for (Component c : container.getComponents()) {
+            c.setEnabled(enabled);
+            if (c instanceof Container) {
+                setEnabledRecursivo((Container) c, enabled);
+            }
+        }
+    }
+
+    public void bloquearVistaExceptoMenu() {
+        bloquearVista();
+        itemDesconectar.setEnabled(true);
+        itemSalir.setEnabled(true);
+    }
 }

@@ -1563,10 +1563,12 @@ public class Controlador implements ActionListener, ItemListener, ListSelectionL
                 if (conectado) {
                     modelo.desconectar();
                     vista.itemDesconectar.setText("Conectar");
+                    vista.bloquearVistaExceptoMenu();
                     conectado = false;
                 } else {
                     modelo.conectar();
                     vista.itemDesconectar.setText("Desconectar");
+                    vista.desbloquearVista();
                     conectado = true;
                 }
                 break;
